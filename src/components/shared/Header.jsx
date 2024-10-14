@@ -1,5 +1,6 @@
 import React from 'react'
 import { HiOutlineSearch } from 'react-icons/hi'
+import { CgProfile } from "react-icons/cg";
 
 export default function Header() {
 
@@ -8,6 +9,7 @@ export default function Header() {
             <HiOutlineSearch fontSize={20} className='text-gray-400 absolute top-1/2 -translate-y-1/2 left-3' />
             <input type='text' placeholder='Search...' className='text-sm focus:outline-none active:outline-none h-10 w-[24rem] border border-gray-300 rounded-sm pl-11 pr-4' />
         </div>
-        <div> Side Buttons</div>
+        <div className='relative'>
+            <CgProfile fontSize={45} /></div>
     </div>
 )}
