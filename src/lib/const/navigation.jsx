@@ -30,7 +30,7 @@ export const DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
 	{
 		key: 'support',
 		label: 'Help & Support',
-		path: '/support',
+		path: '/help',
 		icon: <HiOutlineQuestionMarkCircle />
 	}
 ]
