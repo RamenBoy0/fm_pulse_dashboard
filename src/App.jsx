@@ -4,6 +4,9 @@ import Dashboard from './components/Dashboard'
 import Tenders from './components/Tenders'
 import Settings from './components/Setting'
 import HelpSupport from './components/Help'
+import GovAwarded from './components/GovAwarded'
+import Calculator from './components/Calculator'
+
 
 function App() {
     return (
@@ -11,7 +14,9 @@ function App() {
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Dashboard />} />
-                    <Route path='tenders' element={<Tenders />} />
+                    <Route path='wog_bct' element={<Tenders />} />
+                    <Route path='gov_awarded' element={<GovAwarded />} />
+                    <Route path='calculator' element={<Calculator />} />
                     <Route path='settings' element={<Settings />} />
                     <Route path='help' element={<HelpSupport />} />
                 </Route>

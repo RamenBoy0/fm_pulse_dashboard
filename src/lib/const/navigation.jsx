@@ -2,21 +2,35 @@ import {
 	HiOutlineViewGrid,
 	HiOutlineCube,
 	HiOutlineQuestionMarkCircle,
-	HiOutlineCog
+	HiOutlineCog,
+	HiBriefcase,
+	HiCalculator
 } from 'react-icons/hi'
 
 export const DASHBOARD_SIDEBAR_LINKS = [
 	{
-		key: 'dashboard',
-		label: 'Dashboard',
+		key: 'FM Companies',
+		label: 'FM Companies',
 		path: '/',
 		icon: <HiOutlineViewGrid />
 	},
 	{
-		key: 'tenders',
-		label: 'Tenders',
-		path: '/tenders',
+		key: 'Gov Awarded Tenders',
+		label: 'Gov Awarded Tenders',
+		path: '/gov_awarded',
+		icon: <HiBriefcase />
+	},
+	{
+		key: 'WOG BCT',
+		label: 'WOG BCT',
+		path: '/wog_bct',
 		icon: <HiOutlineCube />
+	},
+	{
+		key: 'calculator',
+		label: 'calculator',
+		path: '/calculator',
+		icon: <HiCalculator />
 	}
 ]
 
