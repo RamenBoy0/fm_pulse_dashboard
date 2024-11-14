@@ -1,5 +1,5 @@
 import {
-	HiOutlineViewGrid,
+	// HiOutlineViewGrid,
 	HiOutlineCube,
 	HiOutlineQuestionMarkCircle,
 	HiOutlineCog,
@@ -9,12 +9,12 @@ import {
 } from 'react-icons/hi'
 
 export const DASHBOARD_SIDEBAR_LINKS = [
-	{
-		key: 'FM Companies',
-		label: 'FM Companies',
-		path: '/',
-		icon: <HiOutlineViewGrid />
-	},
+	// {
+	// 	key: 'FM Companies',
+	// 	label: 'FM Companies',
+	// 	path: '/',
+	// 	icon: <HiOutlineViewGrid />
+	// },
 	{
 		key: 'Gov Awarded Tenders',
 		label: 'Gov Awarded Tenders',

@@ -3,7 +3,7 @@ import { FcMoneyTransfer } from "react-icons/fc"
 import { FaBuilding } from "react-icons/fa"
 
 
-export default function DashboardStatsGrid() {
+export default function TendersStatsGrid() {
     const [average_cost, setAverage] = useState([]);
 
     // Fetch average data
