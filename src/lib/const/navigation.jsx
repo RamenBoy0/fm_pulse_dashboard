@@ -4,7 +4,8 @@ import {
 	HiOutlineQuestionMarkCircle,
 	HiOutlineCog,
 	HiBriefcase,
-	HiCalculator
+	HiCalculator,
+	HiDatabase 
 } from 'react-icons/hi'
 
 export const DASHBOARD_SIDEBAR_LINKS = [
@@ -27,9 +28,15 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		icon: <HiOutlineCube />
 	},
 	{
-		key: 'calculator',
-		label: 'calculator',
-		path: '/calculator',
+		key: 'GeBiz',
+		label: 'GeBiz',
+		path: '/gebiz',
+		icon: <HiDatabase  />
+	},
+	{
+		key: 'Cost Calculator',
+		label: 'Cost Calculator',
+		path: '/pulse_cost_calculator',
 		icon: <HiCalculator />
 	}
 ]

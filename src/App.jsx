@@ -6,6 +6,7 @@ import Settings from './components/Setting'
 import HelpSupport from './components/Help'
 import GovAwarded from './components/GovAwarded'
 import Calculator from './components/Calculator'
+import GeBiz from './components/GeBiz'
 
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
                     <Route index element={<Dashboard />} />
                     <Route path='wog_bct' element={<Tenders />} />
                     <Route path='gov_awarded' element={<GovAwarded />} />
-                    <Route path='calculator' element={<Calculator />} />
+                    <Route path='gebiz' element={<GeBiz />} />
+                    <Route path='pulse_cost_calculator' element={<Calculator />} />
                     <Route path='settings' element={<Settings />} />
                     <Route path='help' element={<HelpSupport />} />
                 </Route>
