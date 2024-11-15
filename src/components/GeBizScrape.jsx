@@ -46,7 +46,7 @@ export default function GeBizScrape() {
                 </strong>
                 </span>
             </div>
-            {loading && <p className="ml-20">Loading...</p>}  {/* Added margin-top for spacing */}
+            {loading && <p className="ml-20">Scraping Data...</p>}  {/* Added margin-top for spacing */}
             {message && <p className="ml-20">{message}</p>}  {/* Added margin-top for spacing */}
         </BoxWrapper>
 

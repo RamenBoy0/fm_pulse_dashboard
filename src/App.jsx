@@ -14,7 +14,7 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    {/* <Route index element={<Dashboard />} /> */}
+                    <Route index element={<Calculator />} />
                     <Route path='wog_bct' element={<Tenders />} />
                     <Route path='gov_awarded' element={<GovAwarded />} />
                     <Route path='gebiz' element={<GeBiz />} />

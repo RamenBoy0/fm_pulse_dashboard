@@ -1,17 +1,38 @@
 import React, { useEffect, useState } from 'react';
+import { FcSearch } from "react-icons/fc";
 
 export default function GeBiz() {
     const [gebiz, setGebiz] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("")
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 6; // Limit to 6 rows per page
-
-    // Fetch tender data
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/GeBiz')
-            .then(response => response.json())
-            .then(data => setGebiz(data))
-            .catch(error => console.error('Error fetching tenders', error));
-    }, []);
+        const fetchData = async () => {
+            let url = 'http://127.0.0.1:8000/GeBiz';
+            if (searchTerm) {
+                url += `?search=${searchTerm}`;  // Add search query parameter if searchTerm is not empty
+            }
+    
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+    
+                // Check if data is an array before setting it
+                if (Array.isArray(data)) {
+                    setGebiz(data);
+                } else {
+                    console.error('Fetched data is not an array:', data);
+                    setGebiz([]); // Fallback to empty array if not an array
+                }
+            } catch (error) {
+                console.error('Error fetching tenders', error);
+            }
+        };
+    
+        fetchData();
+    }, [searchTerm]);  // Re-fetch when searchTerm changes
+    
+
 
     // Pagination logic
     const indexOfLastRow = currentPage * rowsPerPage;
@@ -25,13 +46,26 @@ export default function GeBiz() {
 
     return (
         <div className='bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1'>
-            <strong className='text-gray-700 font-medium'>GeBiz Data</strong>
+             <div className='flex items-center justify-between'>
+             <strong className='text-gray-700 font-medium'>GeBiz Data</strong>
+            <div className='flex items-center space-x-2'>
+            <FcSearch className='text-xl'/>
+            <input
+                        type='text'
+                        placeholder='Search...'
+                        className='border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)} // Update searchTerm on input change
+                    />
+                </div>
+            </div>
+
             <div className='mt-3'>
                 {/* Scrollable Table Container */}
                 <div className="overflow-y-auto max-h-[60vh]">
                     <table className="w-full text-gray-700">
-                        <thead>
-                            <tr>
+                        <thead className="bg-gray-200 text-gray-800 font-semibold">
+                            <tr className="border-b-2 border-gray-300">
                                 <th className="px-4 py-2">Title</th>
                                 <th className="px-4 py-2">Agency</th>
                                 <th className="px-4 py-2">Description</th>
