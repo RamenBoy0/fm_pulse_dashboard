@@ -5,18 +5,43 @@ export default function CalculatorModel() {
     const [gfa, setGfa] = useState(""); // State for GFA input
     const [buildingType, setBuildingType] = useState("Standalone"); // State for dropdown 
     const [result, setResult] = useState(null); // State for calculation result
+    const [loading, setLoading] = useState(false); // State for loading
 
-    const handleCalculate = () => {
-        if (!gfa) {
-            alert("Please enter a valid GFA value.");
-            return;
+    const handleCalculate = async () => {
+        const requestData = {
+            GFA: parseFloat(gfa),  // GFA value entered by the user
+            tender_type: buildingType === "Standalone" ? 1 : 0,  // Binary encoding
+        };
+    
+        setLoading(true); // Start loading
+        try {
+            const response = await fetch("http://127.0.0.1:8000/predict", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(requestData),
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to fetch predictions");
+            }
+    
+            const data = await response.json();
+            
+            setResult({
+                lower: data.lower_percentile,
+                mean: data.mean_prediction,
+                upper : data.upper_percentile
+            });
+
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred while fetching predictions.");
         }
-        // Example calculation logic
-        const cost = buildingType === "Standalone" ? gfa * 10 : gfa * 8;
-        setResult(`The estimated cost is $${cost.toFixed(2)}`);
+        setLoading(false); // Stop loading
     };
     
-
     return <div>
         <BoxWrapper>
             <div className='rounded-full h-12 w-12 flex items-center justify-center bg-sky-500'>
@@ -31,19 +56,20 @@ export default function CalculatorModel() {
                 </span>
             </div>
         </BoxWrapper>
-
+    
+        <div className="flex items-center justify-center bg-gray-100">
         <div className="mt-6">
                 {/* Header for Demo Calculator */}
-                <h2 className="text-xl font-semibold text-gray-700 mb-4">Demo Calculator</h2>
+                <h4 className="text-l font-semibold text-gray-700 mb-4">This calculator provides an estimated range (min / max ) ($ per sqm) based on the GFA and Building Type provided</h4>
 
                         {/* Input for GFA */}
                         <div className="mb-4">
-                    <label className="block text-gray-700 font-semibold mb-2">
-                        GFA (in sqm)
+                    <label className="block text-gray-700 font-bold mb-2">
+                        GFA (In sqm)
                     </label>
                     <input
                         type="number"
-                        className="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+                        className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
                         value={gfa}
                         onChange={(e) => setGfa(e.target.value)}
                         placeholder="Enter GFA"
@@ -51,11 +77,11 @@ export default function CalculatorModel() {
                 </div>
                       {/* Dropdown for Building Type */}
                       <div className="mb-4">
-                    <label className="block text-gray-700 font-semibold mb-2">
+                    <label className="block text-gray-700 font-bold mb-2">
                         Building Type
                     </label>
                     <select
-                        className="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+                        className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
                         value={buildingType}
                         onChange={(e) => setBuildingType(e.target.value)}
                     >
@@ -63,15 +89,39 @@ export default function CalculatorModel() {
                         <option value="Cluster">Cluster</option>
                     </select>
                 </div>
-                                {/* Calculate Button */}
                 
                     <button
                         onClick={handleCalculate}
-                        className="w-1/6  bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600"
+                        className="w-full  bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600"
+                        disabled={loading}
                     >
-                        Calculate
+                         {loading ? "Calculating..." : "Calculate"}
                     </button>
-            
+
+                    {/* Mini Loading Bar */}
+                                        {loading && (
+                        <div className="w-full bg-blue-100 mt-4 rounded-lg overflow-hidden">
+                            <div
+                                className="h-2 bg-blue-500 animate-pulse"
+                                style={{ width: "100%" }}
+                            ></div>
+                        </div>
+                    )}
+
+                    {result && (
+                    <div className="text-xl mt-6 p-4 bg-green-100 text-green-800 rounded-lg">
+                        <p>
+                            <strong>Lower Bound: </strong> ${result.lower.toFixed(2)} / sqm
+                        </p>
+                        <p>
+                            <strong>Predicted Value: </strong> ${result.mean.toFixed(2)} / sqm
+                        </p>
+                        <p>
+                            <strong>Upper Bound: </strong> ${result.upper.toFixed(2)} / sqm
+                        </p>
+                    </div>
+                )}
+        </div>
         </div>
     </div>
 }
