@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FcSearch } from "react-icons/fc";
+import * as XLSX from "xlsx";
 
 export default function GeBiz() {
     const [gebiz, setGebiz] = useState([]);
@@ -39,6 +40,18 @@ export default function GeBiz() {
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
     const currentTenders = gebiz.slice(indexOfFirstRow, indexOfLastRow);
     const totalPages = Math.ceil(gebiz.length / rowsPerPage);
+
+    // Export to excel
+    const exportToExcel = () => {
+        // Convert current data to excel
+        const worksheet = XLSX.utils.json_to_sheet(gebiz);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "GeBiz Data");
+
+        // Create and download Excel file
+        XLSX.writeFile(workbook, "GeBiz_Data.xlsx");
+
+    }
 
     // Navigate to the next or previous page
     const nextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -109,6 +122,15 @@ export default function GeBiz() {
                         disabled={currentPage === totalPages}
                     >
                         Next
+                    </button>
+                </div>
+                                {/* Export to Excel Button */}
+                <div className="mt-4">
+                    <button
+                        onClick={exportToExcel}
+                        className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600"
+                    >
+                        Export to Excel
                     </button>
                 </div>
             </div>
