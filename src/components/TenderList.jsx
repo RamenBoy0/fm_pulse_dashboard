@@ -9,6 +9,7 @@ export default function TenderList() {
     const rowsPerPage = 6; // Limit to 6 rows per page 
     const fileInputRef = useRef(); // For file upload
     const [loading, setLoading] = useState(false);
+    const [showAll , setShowAll] = useState(false);
     
 
     // UseEffect to make API calls and fetch data 
@@ -18,6 +19,12 @@ export default function TenderList() {
             if (searchTerm) {
                 // Add search query parameter if searchTerm is not empty
                 url += `?search=${searchTerm}`;  
+            }
+
+            if (showAll){
+                // Add show all if flag enabled
+                url += searchTerm ? '&show_all=true' : '?show_all=true'
+
             }
     
             try {
@@ -39,7 +46,7 @@ export default function TenderList() {
     
         fetchData();
         // Re-fetch when searchTerm changes
-    }, [searchTerm]);  
+    }, [searchTerm, showAll]);  
 
     // Pagination logic
     const indexOfLastRow = currentPage * rowsPerPage;
@@ -62,6 +69,12 @@ export default function TenderList() {
         XLSX.writeFile(workbook, "BCT_Data.xlsx");
 
     }
+
+    const toggleShowAll = () => {
+        setShowAll((prev) => !prev); //Toggle state
+        setCurrentPage(1); // Reset to first page when toggling
+
+    };
 
     const handleFileInput = async (event) => {
         const file = event.target.files[0];
@@ -129,6 +142,14 @@ export default function TenderList() {
                     </button>
                     </div>
             <div className='flex items-center space-x-2'>
+
+                    {/* Show All Button */}
+                    <button
+                        onClick={toggleShowAll}
+                        className="bg-purple-500 text-white font-semibold py-2 px-4 me-6 rounded-lg hover:bg-purple-600"
+                    >
+                        {showAll ? "Show Paginated" : "Show All"}
+                    </button>
 
                   {/* Search Button */}
             <FcSearch className='text-xl'/>

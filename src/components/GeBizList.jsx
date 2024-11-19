@@ -7,6 +7,7 @@ export default function GeBiz() {
     const [searchTerm, setSearchTerm] = useState("")
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 6; // Limit to 6 rows per page
+    const [showAll , setShowAll] = useState(false);
     
      // UseEffect to make API calls and fetch data 
     useEffect(() => {
@@ -15,6 +16,11 @@ export default function GeBiz() {
             if (searchTerm) {
                 // Add search query parameter if searchTerm is not empty
                 url += `?search=${searchTerm}`;  
+            }
+            if (showAll){
+                // Add show all if flag enabled
+                url += searchTerm ? '&show_all=true' : '?show_all=true'
+
             }
     
             try {
@@ -36,7 +42,7 @@ export default function GeBiz() {
     
         fetchData();
         // Re-fetch when searchTerm changes
-    }, [searchTerm]);  
+    }, [searchTerm, showAll]);  
     
 
 
@@ -58,6 +64,12 @@ export default function GeBiz() {
 
     }
 
+    const toggleShowAll = () => {
+        setShowAll((prev) => !prev); //Toggle state
+        setCurrentPage(1); // Reset to first page when toggling
+
+    };
+
     // Navigate to the next or previous page
     const nextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
     const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
@@ -76,6 +88,14 @@ export default function GeBiz() {
                     </button>
                 </div>
             <div className='flex items-center space-x-2'>
+
+                                    {/* Show All Button */}
+                                    <button
+                        onClick={toggleShowAll}
+                        className="bg-purple-500 text-white font-semibold py-2 px-4 me-6 rounded-lg hover:bg-purple-600"
+                    >
+                        {showAll ? "Show Paginated" : "Show All"}
+                    </button>
 
                    {/* Search Button */}
             <FcSearch className='text-xl'/>
@@ -125,6 +145,7 @@ export default function GeBiz() {
                 </div>
 
                 {/* Pagination Controls */}
+                {}
                 <div className='mt-4 flex justify-between'>
                     <button
                         className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l'

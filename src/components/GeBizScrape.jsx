@@ -53,6 +53,7 @@ export default function GeBizScrape() {
                                 className="h-2 bg-blue-500 animate-pulse"
                                 style={{ width: "100%" }}
                             ></div>
+                        {message && <p className="ml-20">{message}</p>}  {/* Added margin-top for spacing */}
                         </div>
                     )}
                     
