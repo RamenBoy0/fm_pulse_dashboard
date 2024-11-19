@@ -7,15 +7,19 @@ export default function GeBiz() {
     const [searchTerm, setSearchTerm] = useState("")
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 6; // Limit to 6 rows per page
+    
+     // UseEffect to make API calls and fetch data 
     useEffect(() => {
         const fetchData = async () => {
             let url = 'http://127.0.0.1:8000/GeBiz';
             if (searchTerm) {
-                url += `?search=${searchTerm}`;  // Add search query parameter if searchTerm is not empty
+                // Add search query parameter if searchTerm is not empty
+                url += `?search=${searchTerm}`;  
             }
     
             try {
                 const response = await fetch(url);
+                 // Wait for return response
                 const data = await response.json();
     
                 // Check if data is an array before setting it
@@ -31,7 +35,8 @@ export default function GeBiz() {
         };
     
         fetchData();
-    }, [searchTerm]);  // Re-fetch when searchTerm changes
+        // Re-fetch when searchTerm changes
+    }, [searchTerm]);  
     
 
 
@@ -60,8 +65,19 @@ export default function GeBiz() {
     return (
         <div className='bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1'>
              <div className='flex items-center justify-between'>
-             <strong className='text-gray-700 font-medium'>GeBiz Data</strong>
+                       <div className="flex items-center space-x-4">
+             <strong className='text-gray-700 font-medium'>GeBiz Data</strong>   
+                {/* Export to Excel Button */}
+                    <button
+                        onClick={exportToExcel}
+                        className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600"
+                    >
+                        Export to Excel
+                    </button>
+                </div>
             <div className='flex items-center space-x-2'>
+
+                   {/* Search Button */}
             <FcSearch className='text-xl'/>
             <input
                         type='text'
@@ -74,7 +90,8 @@ export default function GeBiz() {
             </div>
 
             <div className='mt-3'>
-                {/* Scrollable Table Container */}
+
+                 {/* Table of Data */}
                 <div className="overflow-y-auto max-h-[60vh]">
                     <table className="w-full text-gray-700">
                         <thead className="bg-gray-200 text-gray-800 font-semibold">
@@ -90,6 +107,7 @@ export default function GeBiz() {
                             </tr>
                         </thead>
                         <tbody>
+                            {/* Map data to table */}
                             {currentTenders.map((gebiz) => (
                                 <tr key={gebiz.tender_id}>
                                     <td className="border px-4 py-2">{gebiz.title}</td>
@@ -122,15 +140,6 @@ export default function GeBiz() {
                         disabled={currentPage === totalPages}
                     >
                         Next
-                    </button>
-                </div>
-                                {/* Export to Excel Button */}
-                <div className="mt-4">
-                    <button
-                        onClick={exportToExcel}
-                        className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600"
-                    >
-                        Export to Excel
                     </button>
                 </div>
             </div>

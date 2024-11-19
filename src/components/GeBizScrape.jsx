@@ -9,10 +9,10 @@ export default function GeBizScrape() {
 
     // Handle the API call when the BoxWrapper is clicked
     const handleScrapeClick = async () => {
-        setLoading(true);
         setMessage('');
 
         try {
+            setLoading(true);
             const response = await fetch('http://127.0.0.1:8000/scrape', {
                 method: 'POST',
                 headers: {
@@ -46,8 +46,16 @@ export default function GeBizScrape() {
                 </strong>
                 </span>
             </div>
-            {loading && <p className="ml-20">Scraping Data...</p>}  {/* Added margin-top for spacing */}
-            {message && <p className="ml-20">{message}</p>}  {/* Added margin-top for spacing */}
+                                {/* Mini Loading Bar */}
+                                {loading && (
+                        <div className="mx-4 w-10/12 bg-blue-100 mt-2 rounded-lg overflow-hidden">
+                            <div
+                                className="h-2 bg-blue-500 animate-pulse"
+                                style={{ width: "100%" }}
+                            ></div>
+                        </div>
+                    )}
+                    
         </BoxWrapper>
 
 

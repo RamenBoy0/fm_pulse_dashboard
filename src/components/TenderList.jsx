@@ -1,21 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { FcSearch } from "react-icons/fc";
+import * as XLSX from "xlsx";
 
 export default function TenderList() {
     const [tenders, setTenders] = useState([]);
     const [searchTerm, setSearchTerm] = useState("")
     const [currentPage, setCurrentPage] = useState(1);
-    const rowsPerPage = 6; // Limit to 10 rows per page
+    const rowsPerPage = 6; // Limit to 6 rows per page 
+    const fileInputRef = useRef(); // For file upload
+    const [loading, setLoading] = useState(false);
+    
 
+    // UseEffect to make API calls and fetch data 
     useEffect(() => {
         const fetchData = async () => {
             let url = 'http://127.0.0.1:8000/tenders';
             if (searchTerm) {
-                url += `?search=${searchTerm}`;  // Add search query parameter if searchTerm is not empty
+                // Add search query parameter if searchTerm is not empty
+                url += `?search=${searchTerm}`;  
             }
     
             try {
                 const response = await fetch(url);
+                // Wait for return response
                 const data = await response.json();
     
                 // Check if data is an array before setting it
@@ -31,7 +38,8 @@ export default function TenderList() {
         };
     
         fetchData();
-    }, [searchTerm]);  // Re-fetch when searchTerm changes
+        // Re-fetch when searchTerm changes
+    }, [searchTerm]);  
 
     // Pagination logic
     const indexOfLastRow = currentPage * rowsPerPage;
@@ -43,11 +51,86 @@ export default function TenderList() {
     const nextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
     const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
 
+    // Export to excel
+    const exportToExcel = () => {
+        // Convert current data to excel
+        const worksheet = XLSX.utils.json_to_sheet(tenders);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "BCT Data");
+
+        // Create and download Excel file
+        XLSX.writeFile(workbook, "BCT_Data.xlsx");
+
+    }
+
+    const handleFileInput = async (event) => {
+        const file = event.target.files[0];
+        const formData = new FormData();
+        formData.append("file", file)
+
+        setLoading(true); // Start loading
+
+        try{
+            const response = await fetch('http://127.0.0.1:8000/tenders', {
+                method: "POST",
+                body: formData,
+            });
+
+            if (response.ok){
+                alert("Data Successfully Imported")
+            } else{
+                const error = await response.json();
+                alert("Failed to upload file: " + error.detail);
+            }
+            
+        }catch (error){
+            alert("Please upload the appropriate file")
+        }
+    setLoading(false); // Stop loading after the upload attempt
+    };
+
+    
+    // Trigger file input click
+    const handleImportClick = () => {
+        fileInputRef.current.click();
+        };
+
     return (
         <div className='bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1'>
              <div className='flex items-center justify-between'>
+             <div className="flex items-center space-x-4">
             <strong className='text-gray-700 font-medium'>Tender List</strong>
+
+                                        {/* Import from Excel Button */}
+                                        <button
+                                    onClick={handleImportClick}
+                        className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600"
+                        disabled={loading}
+                    >
+                          {loading ? "Importing..." : "Import to Database"}
+                    </button>
+
+
+                    {/* Hidden File Input */}
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        className="hidden"
+                        onChange={handleFileInput}
+                    />
+
+                            {/* Export to Excel Button */}
+                            <button
+                        onClick={exportToExcel}
+                        className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600"
+                        
+                    >
+                        Export to Excel
+                    </button>
+                    </div>
             <div className='flex items-center space-x-2'>
+
+                  {/* Search Button */}
             <FcSearch className='text-xl'/>
             <input
                         type='text'
@@ -59,6 +142,8 @@ export default function TenderList() {
                 </div>
             </div>
             <div className='mt-3'>
+
+                  {/* Table of Data */}
                 <table className="w-full text-gray-700">
                     <thead className="bg-gray-200 text-gray-800 font-semibold">
                         <tr className="border-b-2 border-gray-300">
@@ -75,9 +160,9 @@ export default function TenderList() {
                         </tr>
                     </thead>
                     <tbody>
+                        {/* Map data to table */}
                         {currentTenders.map((tender) => (
                             <tr key={tender.tender_id}>
-                                {/*<td className="border px-4 py-2">{tender.tender_id}</td>*/}
                                 <td className="border px-4 py-2">{tender.year}</td>
                                 <td className="border px-4 py-2">{tender.agency}</td>
                                 <td className="border px-4 py-2">{tender.tender_outcome}</td>
