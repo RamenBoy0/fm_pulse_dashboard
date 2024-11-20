@@ -1,5 +1,5 @@
 import React from 'react'
-import { FcBarChart } from 'react-icons/fc'
+import { FcLineChart } from "react-icons/fc";
 import { Link, useLocation } from 'react-router-dom'
 import { DASHBOARD_SIDEBAR_LINKS, DASHBOARD_SIDEBAR_BOTTOM_LINKS } from "../../lib/const/navigation"
 import classNames from 'classnames'
@@ -13,7 +13,7 @@ export default function Sidebar() {
         <div className='flex items-center gap-2 px-1 py-3'>
 
             {/*Icons and header*/}
-            <FcBarChart fontSize={24} />
+            <FcLineChart fontSize={24} />
             <span className = 'text-neutral-100 text-lg'>FM Pulse</span>
         </div>
             {/*Map the items from DASHBOARD_SIDEBAR_LINKS*/}
