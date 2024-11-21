@@ -70,6 +70,15 @@ export default function GeBiz() {
 
     };
 
+    // Function to check for recency of data
+    const isRecent = (dateCreated) => {
+        const now = new Date();
+        const importTime = new Date(dateCreated);
+        const differenceInHours = (now - importTime) / (1000 * 60 * 60)
+        return differenceInHours <= 24; // Consider recent if within 2 hours
+
+    }
+
     // Navigate to the next or previous page
     const nextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
     const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
@@ -129,7 +138,9 @@ export default function GeBiz() {
                         <tbody>
                             {/* Map data to table */}
                             {currentTenders.map((gebiz) => (
-                                <tr key={gebiz.tender_id}>
+                                <tr key={gebiz.tender_id}
+                                // Highlight if in recently imported
+                                className={isRecent(gebiz.date_created) ? 'bg-yellow-100' : ''}> 
                                     <td className="border px-4 py-2">{gebiz.title}</td>
                                     <td className="border px-4 py-2">{gebiz.agency}</td>
                                     <td className="border px-4 py-2">{gebiz.description}</td>

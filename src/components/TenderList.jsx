@@ -76,6 +76,15 @@ export default function TenderList() {
 
     };
 
+    // Function to check for recency of data
+    const isRecent = (dateCreated) => {
+        const now = new Date();
+        const importTime = new Date(dateCreated);
+        const differenceInHours = (now - importTime) / (1000 * 60 * 60)
+        return differenceInHours <= 24; // Consider recent if within 2 hours
+
+    }
+
     const handleFileInput = async (event) => {
         const file = event.target.files[0];
         const formData = new FormData();
@@ -183,7 +192,8 @@ export default function TenderList() {
                     <tbody>
                         {/* Map data to table */}
                         {currentTenders.map((tender) => (
-                            <tr key={tender.tender_id}>
+                            <tr key={tender.tender_id}
+                            className={isRecent(tender.date_created) ? 'bg-yellow-100' : ''}>
                                 <td className="border px-4 py-2">{tender.year}</td>
                                 <td className="border px-4 py-2">{tender.agency}</td>
                                 <td className="border px-4 py-2">{tender.tender_outcome}</td>
