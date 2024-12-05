@@ -7,13 +7,13 @@ export default function TendersStatsGrid() {
     const [average_cost, setAverage] = useState([]);
 
     // Fetch average data
-    useEffect(() => {
-        fetch('http://127.0.0.1:8000/tenders/average_cost')
-            .then(response => response.json())
-            .then(data => setAverage(data))
-            .catch(error => console.error('Error fetching tenders', error));
+    // useEffect(() => {
+    //     fetch('http://127.0.0.1:8000/tenders/average_cost')
+    //         .then(response => response.json())
+    //         .then(data => setAverage(data))
+    //         .catch(error => console.error('Error fetching tenders', error));
 
-    }, []);
+    // }, []);
 
     return <div className='flex gap-4 w-full'>
         <BoxWrapper>

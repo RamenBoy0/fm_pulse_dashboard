@@ -1,16 +1,61 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState} from 'react';
 import { FcSearch } from "react-icons/fc";
 import * as XLSX from "xlsx";
 
 export default function TenderList() {
+    // Tender Table
     const [tenders, setTenders] = useState([]);
+
+    // Search Bar
     const [searchTerm, setSearchTerm] = useState("")
     const [currentPage, setCurrentPage] = useState(1);
+
+    // Pagination
     const rowsPerPage = 6; // Limit to 6 rows per page 
-    const fileInputRef = useRef(); // For file upload
+
+    // Loading
     const [loading, setLoading] = useState(false);
     const [showAll , setShowAll] = useState(false);
+
+    // Popup for import
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [startingYear, setStartingYear] = useState("");
+    const [startingMonth, setStartingMonth] = useState("Jan");
+    const [isAwarded, setIsAwarded] = useState(true);
+    const [file, setFile] = useState(null);
     
+    // Popup
+    const handlePopupSubmit = async() => {
+
+        if (!file) {
+            alert("Please select a file to upload.");
+            return;
+        }
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("startingYear", startingYear);
+        formData.append("startingMonth", startingMonth);
+        formData.append("isAwarded", isAwarded);
+        formData.append("fileName", file.name);
+        setLoading(true);
+
+        try{
+            const response = await fetch("http://127.0.0.1:8000/tenders", {
+                method: "POST",
+                body: formData,
+            });
+            if (response.ok){
+                alert("Data Successfully Imported");
+            } else {
+                const error = await response.json();
+                alert("Failed to upload file: " + JSON.stringify(error));
+            }
+        } catch (error) {
+            alert("Error during upload: " + error.message);
+        }
+        
+        setLoading(false);
+    };
 
     // UseEffect to make API calls and fetch data 
     useEffect(() => {
@@ -85,38 +130,7 @@ export default function TenderList() {
 
     }
 
-    const handleFileInput = async (event) => {
-        const file = event.target.files[0];
-        const formData = new FormData();
-        formData.append("file", file)
-
-        setLoading(true); // Start loading
-
-        try{
-            const response = await fetch('http://127.0.0.1:8000/tenders', {
-                method: "POST",
-                body: formData,
-            });
-
-            if (response.ok){
-                alert("Data Successfully Imported")
-            } else{
-                const error = await response.json();
-                alert("Failed to upload file: " + error.detail);
-            }
-            
-        }catch (error){
-            alert("Please upload the appropriate file")
-        }
-    setLoading(false); // Stop loading after the upload attempt
-    };
-
     
-    // Trigger file input click
-    const handleImportClick = () => {
-        fileInputRef.current.click();
-        };
-
     return (
         <div className='bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1'>
              <div className='flex items-center justify-between'>
@@ -125,7 +139,7 @@ export default function TenderList() {
 
                                         {/* Import from Excel Button */}
                                         <button
-                                    onClick={handleImportClick}
+                                    onClick= {() => setIsPopupOpen(true)} // Open Popup
                         className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600"
                         disabled={loading}
                     >
@@ -133,13 +147,81 @@ export default function TenderList() {
                     </button>
 
 
-                    {/* Hidden File Input */}
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        className="hidden"
-                        onChange={handleFileInput}
-                    />
+                    {/* Popup Window */}
+                    {isPopupOpen && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                            <div className="bg-white p-8 rounded-md shadow-lg">
+                            <h3 className="text-lg font-bold mb-4">Upload File Options</h3>
+
+                            <div className="mb-3">
+                                <label className="block font-medium text-gray-700">
+                                    Starting Year
+                                </label>
+                                <input 
+                                type ="number"
+                                value={startingYear}
+                                onChange={(e) => setStartingYear(e.target.value)}
+                                className="border px-3 py-2 rounded-md w-full"
+                                placeholder="Enter starting year"
+                                    />
+                                </div>
+
+                                <div className = "mb-3">
+                                    <label className="block font-medium text-gray-700">
+                                        Starting Month
+                                    </label>
+                                    <select
+                                    value={startingMonth}
+                                    onChange={(e) => setStartingMonth(e.target.value)}
+                                    className="border px-3 py-2 rounded-md w-full"
+                                    >
+                                        {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+                                        .map((month) => (<option key={month} value={month}>
+                                            {month}
+                                        </option>))}
+                                    </select>
+                                    </div>
+
+                                            <div className="mb-3">
+                                    <label className="block font-medium text-gray-700">
+                                        Awarded
+                                    </label>
+                                    <select
+                                        value={isAwarded}
+                                        onChange={(e) => setIsAwarded(e.target.value === "true")}
+                                        className="border px-3 py-2 rounded-md w-full"
+                                    >
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+
+                                        <div className="mb-3">
+                                    <label className="block font-medium text-gray-700">
+                                        Upload File
+                                    </label>
+                                    <input
+                                        type="file"
+                                        onChange={(e) => setFile(e.target.files[0])}
+                                        className="border px-3 py-2 rounded-md w-full"
+                                    />
+                                </div>
+                                <div className="flex justify-end space-x-2">
+                                    <button
+                                    onClick={() => setIsPopupOpen(false)}
+                                    className="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400">
+                                        Cancel
+                                    </button>
+                                    <button 
+                                    onClick={handlePopupSubmit}
+                                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                                    >
+                                    Upload
+                                        </button>
+                            </div>
+                        </div>
+                    </div>
+                    )}
 
                             {/* Export to Excel Button */}
                             <button
@@ -182,9 +264,7 @@ export default function TenderList() {
                             <th className="px-4 py-2">Agency</th>
                             <th className="px-4 py-2">Outcome</th>
                             <th className="px-4 py-2">Property</th>
-                            <th className="px-4 py-2">Cost/Month</th>
                             <th className="px-4 py-2">Building Type</th>
-                            <th className="px-4 py-2">Dollar Per GFA Month</th>
                             <th className="px-4 py-2">GFA</th>
                             <th className="px-4 py-2">Date</th>
                         </tr>
@@ -198,9 +278,7 @@ export default function TenderList() {
                                 <td className="border px-4 py-2">{tender.agency}</td>
                                 <td className="border px-4 py-2">{tender.tender_outcome}</td>
                                 <td className="border px-4 py-2">{tender.property}</td>
-                                <td className="border px-4 py-2">${tender.cost_per_month.toFixed(2)}</td>
                                 <td className="border px-4 py-2">{tender.building_type}</td>
-                                <td className="border px-4 py-2">{tender.dollar_per_gfa_month.toFixed(4)}</td>
                                 <td className="border px-4 py-2">{tender.gfa}</td>
                                 <td className="border px-4 py-2">{new Date(tender.date).toLocaleDateString()}</td>
                             </tr>
