@@ -18,11 +18,15 @@ export default function TenderList() {
     const [showAll , setShowAll] = useState(false);
 
     // Popup for import
+    const [agencies, setAgencies] = useState([]);
+    const [selectedOption, setSelectedOption] = useState('');
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [startingYear, setStartingYear] = useState("");
     const [startingMonth, setStartingMonth] = useState("Jan");
     const [isAwarded, setIsAwarded] = useState(true);
     const [file, setFile] = useState(null);
+    const [newAgency, setNewAgency] = useState('NIL');
+    const [isModalOpen, setIsModalOpen] = useState(false);
     
     // Popup
     const handlePopupSubmit = async() => {
@@ -36,7 +40,8 @@ export default function TenderList() {
         formData.append("startingYear", startingYear);
         formData.append("startingMonth", startingMonth);
         formData.append("isAwarded", isAwarded);
-        formData.append("fileName", file.name);
+        // Append either the existing 'agencies' or the new 'newAgency'
+        formData.append("fileName", agencies ? agencies : newAgency);
         setLoading(true);
 
         try{
@@ -56,6 +61,34 @@ export default function TenderList() {
         
         setLoading(false);
     };
+
+    useEffect(() => {
+        if (isPopupOpen) {
+            // Fetch agencies from the API
+            fetch('http://127.0.0.1:8000/BCT_agency')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response error');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    setAgencies(data.agencies);
+                })
+                .catch(error => {
+                    console.error('Error fetching agencies:', error);
+                });
+        }
+    }, [isPopupOpen]);
+
+
+    const handleCreateAgency = () => {
+        // After successfully creating the agency, close the modal and refresh the list
+        // Add new agency to the list
+        setAgencies([newAgency]);
+        setIsModalOpen(false); // Close the modal
+    };
+
 
     // UseEffect to make API calls and fetch data 
     useEffect(() => {
@@ -92,6 +125,7 @@ export default function TenderList() {
         fetchData();
         // Re-fetch when searchTerm changes
     }, [searchTerm, showAll]);  
+    
 
     // Pagination logic
     const indexOfLastRow = currentPage * rowsPerPage;
@@ -154,6 +188,69 @@ export default function TenderList() {
                             <h3 className="text-lg font-bold mb-4">Upload File Options</h3>
 
                             <div className="mb-3">
+                                    <label className="block font-medium text-gray-700">
+                                        Agency Name 
+                                    </label>
+                                    <select
+                                        id="agency"
+                                        name="agency"
+                                        value={selectedOption}
+                                        onChange={(e) => setSelectedOption(e.target.value)}
+                                        className="border border-gray-300 rounded-md px-3 py-2"
+                                    >
+                                        <option value="">--Select an Agency--</option>
+                                        {agencies.length > 0 ? (
+                                            agencies.map((agency, index) => (
+                                                <option key={index} value={agency}>{agency}</option>
+                                            ))
+                                        ) : (
+                                            <option disabled>No agencies available</option>
+                                        )}
+                                    </select>
+
+                                    <button
+                                    onClick={() => setIsModalOpen(true)}
+                                    className="ml-2 bg-green-500 text-white font-semibold py-1 px-2 rounded-lg hover:bg-green-600"
+                                >
+                                    + New Agency
+                                </button>        
+                                </div>
+
+                                                {/* Modal for creating new agency */}
+                            {isModalOpen && (
+                                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                                    <div className="bg-white p-8 rounded-md shadow-lg">
+                                        <h3 className="text-lg font-bold mb-4">Create New Agency</h3>
+                                        <input
+                                            type="text"
+                                            placeholder="Agency Name"
+                                            value={newAgency}
+                                            onChange={(e) => setNewAgency(e.target.value)}
+                                            className="border px-3 py-2 rounded-md w-full mb-4"
+                                        />
+                                        <button
+                                            onClick={handleCreateAgency}
+                                            className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600"
+                                        >
+                                            Create
+                                        </button>
+                                        <button
+                                            onClick={() => setIsModalOpen(false)}
+                                            className="ml-2 bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            {agencies &&(
+                                <div className="mt-4 mb-4">
+                                    <p className="font-medium text-gray-700">New Agency : {newAgency}</p>
+                                    </div>
+                            )}
+
+                            <div className="mb-3">
                                 <label className="block font-medium text-gray-700">
                                     Starting Year
                                 </label>
@@ -208,7 +305,9 @@ export default function TenderList() {
                                 </div>
                                 <div className="flex justify-end space-x-2">
                                     <button
-                                    onClick={() => setIsPopupOpen(false)}
+                                    onClick={() => {setIsPopupOpen(false);
+                                        setNewAgency([]);
+                                    }}
                                     className="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400">
                                         Cancel
                                     </button>

@@ -8,7 +8,10 @@ export default function GeBiz() {
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 6; // Limit to 6 rows per page
     const [showAll , setShowAll] = useState(false);
-    
+
+    // GeBiz States
+    const [loading, setLoading] = useState(false);
+
      // UseEffect to make API calls and fetch data 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,8 +46,29 @@ export default function GeBiz() {
         fetchData();
         // Re-fetch when searchTerm changes
     }, [searchTerm, showAll]);  
-    
 
+    // Handle the API call when the BoxWrapper is clicked
+    const handleScrapeClick = async () => {
+
+        try {
+            setLoading(true);
+            const response = await fetch('http://127.0.0.1:8000/scrape', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Error scraping GeBiz');
+            }
+
+            // const data = await response.json();
+        } catch (error) {
+        } finally {
+            setLoading(false);
+        }
+    };    
 
     // Pagination logic
     const indexOfLastRow = currentPage * rowsPerPage;
@@ -87,8 +111,18 @@ export default function GeBiz() {
         <div className='bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1'>
              <div className='flex items-center justify-between'>
                        <div className="flex items-center space-x-4">
-             <strong className='text-gray-700 font-medium'>GeBiz Data</strong>   
+             <strong className='text-gray-700 font-medium'>GeBiz Data</strong> 
+
+               {/* Scrape from GeBiz*/}
+                                        <button
+                        
+                        className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600"
+                        onClick={handleScrapeClick}
+                        disabled={loading}
+                    >{loading ? "Scraping..." : "Scrape to Database"}
+                    </button>
                 {/* Export to Excel Button */}
+
                     <button
                         onClick={exportToExcel}
                         className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600"
