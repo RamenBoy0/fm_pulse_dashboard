@@ -19,14 +19,17 @@ export default function TenderList() {
 
     // Popup for import
     const [agencies, setAgencies] = useState([]);
+    const [tender_names, setTenderName] = useState([]);
     const [selectedOption, setSelectedOption] = useState('');
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [startingYear, setStartingYear] = useState("");
-    const [startingMonth, setStartingMonth] = useState("Jan");
-    const [isAwarded, setIsAwarded] = useState(true);
+    const [startingMonth, setStartingMonth] = useState(" ");
+    const [isAwarded, setIsAwarded] = useState(false);
     const [file, setFile] = useState(null);
     const [newAgency, setNewAgency] = useState('NIL');
+    const[newTenderName, setNewTenderName] = useState('NIL');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isTenderNameModalOpen, setIsTenderNameModalOpen] = useState(false);
     
     // Popup
     const handlePopupSubmit = async() => {
@@ -37,11 +40,23 @@ export default function TenderList() {
         }
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("startingYear", startingYear);
-        formData.append("startingMonth", startingMonth);
+
+        // Only append startingYear if it's a valid number
+        if (startingYear.trim() !== "") {
+            formData.append("startingYear", startingYear);
+        }
+
+        // Only append startingMonth if it's a valid value
+        if (startingMonth.trim() !== "") {
+            formData.append("startingMonth", startingMonth.trim());
+        }
+
         formData.append("isAwarded", isAwarded);
         // Append either the existing 'agencies' or the new 'newAgency'
         formData.append("fileName", agencies ? agencies : newAgency);
+
+        // Append either the existing 'tender names' or the new 'newTenderName'
+        formData.append("tenderName", selectedOption ? selectedOption : newTenderName);
         setLoading(true);
 
         try{
@@ -81,12 +96,38 @@ export default function TenderList() {
         }
     }, [isPopupOpen]);
 
+    useEffect(() => {
+        if (isPopupOpen) {
+            // Fetch tender_names from the API
+            fetch('http://127.0.0.1:8000/BCT_tender_names')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response error');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    setTenderName(data.tender_names);
+                })
+                .catch(error => {
+                    console.error('Error fetching tender_names:', error);
+                });
+        }
+    }, [isPopupOpen]);
+
 
     const handleCreateAgency = () => {
         // After successfully creating the agency, close the modal and refresh the list
         // Add new agency to the list
         setAgencies([newAgency]);
         setIsModalOpen(false); // Close the modal
+    };
+
+    const handleCreateTender = () => {
+        // After successfully creating the agency, close the modal and refresh the list
+        // Add new agency to the list
+        setTenderName([newTenderName]);
+        setIsTenderNameModalOpen(false); // Close the modal
     };
 
 
@@ -189,7 +230,75 @@ export default function TenderList() {
 
                             <div className="mb-3">
                                     <label className="block font-medium text-gray-700">
-                                        Agency Name 
+                                        Mega Tender
+                                    </label>
+                                    <select
+                                        id="tender_name"
+                                        name="tender_name"
+                                        value={selectedOption}
+                                        onChange={(e) => setSelectedOption(e.target.value)}
+                                        className="border border-gray-300 rounded-md px-3 py-2"
+                                    >
+                                        <option value="">--Select a Tender--</option>
+                                         {tender_names.length > 0 ? (
+                                            tender_names.map((tender_name, index) => (
+                                                <option key={index} value={tender_name}>{tender_name}</option>
+                                            ))
+                                        ) : (
+                                            <option disabled>No tender available</option>
+                                        )}
+                                    </select>
+
+                                    <button
+                                    onClick={() => setIsTenderNameModalOpen(true)}
+                                    className="ml-2 bg-green-500 text-white font-semibold py-1 px-2 rounded-lg hover:bg-green-600"
+                                >
+                                    + New Mega Tender
+                                </button>        
+                                </div>
+
+
+                                
+                                    {/* Modal for creating new agency */}
+                            {isTenderNameModalOpen && (
+                                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                                    <div className="bg-white p-8 rounded-md shadow-lg">
+                                        <h3 className="text-lg font-bold mb-4">Create New Tender</h3>
+                                        <input
+                                            type="text"
+                                            placeholder="Tender Name"
+                                            value={newTenderName}
+                                            onChange={(e) => setNewTenderName(e.target.value)}
+                                            className="border px-3 py-2 rounded-md w-full mb-4"
+                                        />
+                                        <button
+                                            onClick={handleCreateTender}
+                                            className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600"
+                                        >
+                                            Create
+                                        </button>
+                                        <button
+                                            onClick={() => setIsTenderNameModalOpen(false)}
+                                            className="ml-2 bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Description for chosen tender*/}
+                            {tender_names &&(
+                                <div className="mt-4 mb-4">
+                                    <p className="font-medium text-gray-700">New Mega Tender : {newTenderName}</p>
+                                    </div>
+                            )}
+
+
+
+                                <div className="mb-3">
+                                    <label className="block font-medium text-gray-700">
+                                        Tenderer Name 
                                     </label>
                                     <select
                                         id="agency"
@@ -198,13 +307,13 @@ export default function TenderList() {
                                         onChange={(e) => setSelectedOption(e.target.value)}
                                         className="border border-gray-300 rounded-md px-3 py-2"
                                     >
-                                        <option value="">--Select an Agency--</option>
+                                        <option value="">--Select a Tenderer--</option>
                                         {agencies.length > 0 ? (
                                             agencies.map((agency, index) => (
                                                 <option key={index} value={agency}>{agency}</option>
                                             ))
                                         ) : (
-                                            <option disabled>No agencies available</option>
+                                            <option disabled>No tenderers available</option>
                                         )}
                                     </select>
 
@@ -212,15 +321,15 @@ export default function TenderList() {
                                     onClick={() => setIsModalOpen(true)}
                                     className="ml-2 bg-green-500 text-white font-semibold py-1 px-2 rounded-lg hover:bg-green-600"
                                 >
-                                    + New Agency
+                                    + New Tenderer
                                 </button>        
                                 </div>
 
-                                                {/* Modal for creating new agency */}
+                                    {/* Modal for creating new agency */}
                             {isModalOpen && (
                                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                                     <div className="bg-white p-8 rounded-md shadow-lg">
-                                        <h3 className="text-lg font-bold mb-4">Create New Agency</h3>
+                                        <h3 className="text-lg font-bold mb-4">Create New Tenderer</h3>
                                         <input
                                             type="text"
                                             placeholder="Agency Name"
@@ -244,9 +353,10 @@ export default function TenderList() {
                                 </div>
                             )}
 
+                                   {/* Description for chosen tenderer*/}
                             {agencies &&(
                                 <div className="mt-4 mb-4">
-                                    <p className="font-medium text-gray-700">New Agency : {newAgency}</p>
+                                    <p className="font-medium text-gray-700">New Tenderer : {newAgency}</p>
                                     </div>
                             )}
 
@@ -272,7 +382,7 @@ export default function TenderList() {
                                     onChange={(e) => setStartingMonth(e.target.value)}
                                     className="border px-3 py-2 rounded-md w-full"
                                     >
-                                        {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+                                        {[" ", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
                                         .map((month) => (<option key={month} value={month}>
                                             {month}
                                         </option>))}
@@ -307,6 +417,7 @@ export default function TenderList() {
                                     <button
                                     onClick={() => {setIsPopupOpen(false);
                                         setNewAgency([]);
+                                        setNewTenderName([]);
                                     }}
                                     className="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400">
                                         Cancel
@@ -360,7 +471,8 @@ export default function TenderList() {
                         <tr className="border-b-2 border-gray-300">
                             {/*<th className="px-4 py-2">Tender ID</th>*/}
                             <th className="px-4 py-2">Year</th>
-                            <th className="px-4 py-2">Agency</th>
+                            <th className="px-4 py-2">Mega Tender</th>
+                            <th className="px-4 py-2">Tenderer</th>
                             <th className="px-4 py-2">Outcome</th>
                             <th className="px-4 py-2">Property</th>
                             <th className="px-4 py-2">Building Type</th>
@@ -374,6 +486,7 @@ export default function TenderList() {
                             <tr key={tender.tender_id}
                             className={isRecent(tender.date_created) ? 'bg-yellow-100' : ''}>
                                 <td className="border px-4 py-2">{tender.year}</td>
+                                <td className="border px-4 py-2">{tender.tender_name}</td>
                                 <td className="border px-4 py-2">{tender.agency}</td>
                                 <td className="border px-4 py-2">{tender.tender_outcome}</td>
                                 <td className="border px-4 py-2">{tender.property}</td>
