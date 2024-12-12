@@ -20,7 +20,8 @@ export default function TenderList() {
     // Popup for import
     const [agencies, setAgencies] = useState([]);
     const [tender_names, setTenderName] = useState([]);
-    const [selectedOption, setSelectedOption] = useState('');
+    const [selectedTender, setSelectedTender] = useState('');
+    const [selectedAgency, setSelectedAgency] = useState('');
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [startingYear, setStartingYear] = useState("");
     const [startingMonth, setStartingMonth] = useState(" ");
@@ -53,10 +54,16 @@ export default function TenderList() {
 
         formData.append("isAwarded", isAwarded);
         // Append either the existing 'agencies' or the new 'newAgency'
-        formData.append("fileName", agencies ? agencies : newAgency);
+        formData.append("fileName", selectedAgency ? selectedAgency : newAgency);
 
         // Append either the existing 'tender names' or the new 'newTenderName'
-        formData.append("tenderName", selectedOption ? selectedOption : newTenderName);
+        formData.append("tenderName", selectedTender ? selectedTender : newTenderName);
+
+        // If selected agency or tender is empty
+        if(!selectedAgency || !selectedTender){
+            alert("Error: Please select an tender or tenderer before proceeding");
+            return;
+        }
         setLoading(true);
 
         try{
@@ -75,6 +82,10 @@ export default function TenderList() {
         }
         
         setLoading(false);
+
+        // Reset Agency and Tender 
+        setSelectedAgency('');
+        setSelectedTender('');
     };
 
     useEffect(() => {
@@ -235,8 +246,8 @@ export default function TenderList() {
                                     <select
                                         id="tender_name"
                                         name="tender_name"
-                                        value={selectedOption}
-                                        onChange={(e) => setSelectedOption(e.target.value)}
+                                        value={selectedTender}
+                                        onChange={(e) => setSelectedTender(e.target.value)}
                                         className="border border-gray-300 rounded-md px-3 py-2"
                                     >
                                         <option value="">--Select a Tender--</option>
@@ -303,8 +314,8 @@ export default function TenderList() {
                                     <select
                                         id="agency"
                                         name="agency"
-                                        value={selectedOption}
-                                        onChange={(e) => setSelectedOption(e.target.value)}
+                                        value={selectedAgency}
+                                        onChange={(e) => setSelectedAgency(e.target.value)}
                                         className="border border-gray-300 rounded-md px-3 py-2"
                                     >
                                         <option value="">--Select a Tenderer--</option>
