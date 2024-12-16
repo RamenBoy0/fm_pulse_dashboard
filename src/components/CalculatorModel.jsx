@@ -4,6 +4,7 @@ import { useState } from "react";
 export default function CalculatorModel() {
     const [gfa, setGfa] = useState(""); // State for GFA input
     const [buildingType, setBuildingType] = useState("Standalone"); // State for dropdown 
+    const [duration, setDuration] = useState(""); // State for contract duration
     const [result, setResult] = useState(null); // State for calculation result
     const [loading, setLoading] = useState(false); // State for loading
 
@@ -11,6 +12,7 @@ export default function CalculatorModel() {
         const requestData = {
             GFA: parseFloat(gfa),  // GFA value entered by the user
             tender_type: buildingType === "Standalone" ? 1 : 0,  // Binary encoding
+            duration : parseInt(duration), // Duration of years
         };
     
         setLoading(true); // Start loading
@@ -88,6 +90,20 @@ export default function CalculatorModel() {
                         <option value="Standalone">Standalone</option>
                         <option value="Cluster">Cluster</option>
                     </select>
+                </div>
+
+                        {/* Input for Contract Duration */}
+                                        <div className="mb-4">
+                    <label className="block text-gray-700 font-bold mb-2">
+                        Contract Duration (Number of Years)
+                    </label>
+                    <input
+                        type="number"
+                        className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+                        value={duration}
+                        onChange={(e) => setDuration(e.target.value)}
+                        placeholder="Enter Contract Duration in Years"
+                    />
                 </div>
                 
                     <button
