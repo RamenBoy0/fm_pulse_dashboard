@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export default function CalculatorModel() {
     const [gfa, setGfa] = useState(""); // State for GFA input
-    const [buildingType, setBuildingType] = useState("Standalone"); // State for dropdown 
+    const [buildingType, setBuildingType] = useState(""); // State for dropdown 
     const [duration, setDuration] = useState(""); // State for contract duration
     const [result, setResult] = useState(null); // State for calculation result
     const [loading, setLoading] = useState(false); // State for loading
@@ -11,7 +11,7 @@ export default function CalculatorModel() {
     const handleCalculate = async () => {
         const requestData = {
             GFA: parseFloat(gfa),  // GFA value entered by the user
-            tender_type: buildingType === "Standalone" ? 1 : 0,  // Binary encoding
+            tender_type: buildingType,
             duration : parseInt(duration), // Duration of years
         };
     
@@ -87,8 +87,12 @@ export default function CalculatorModel() {
                         value={buildingType}
                         onChange={(e) => setBuildingType(e.target.value)}
                     >
-                        <option value="Standalone">Standalone</option>
-                        <option value="Cluster">Cluster</option>
+                        <option value="Building_Type_Amenity Centre">Amenity Centre</option>
+                        <option value="Building_Type_Business Park">Business Park</option>
+                        <option value="Building_Type_Flatted Factories">Flatted Factories</option>
+                        <option value="Building_Type_Hawker Centre">Hawker Centre</option>
+                        <option value="Building_Type_Standard Factories">Standard Factories</option>
+                        <option value="Building_Type_Workshop">Workshop</option>
                     </select>
                 </div>
 
