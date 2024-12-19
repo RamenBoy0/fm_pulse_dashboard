@@ -3,10 +3,11 @@ import {
 	HiOutlineCube,
 	HiOutlineQuestionMarkCircle,
 	HiOutlineCog,
-	HiBriefcase,
 	HiCalculator,
 	HiDatabase 
 } from 'react-icons/hi'
+
+import { FaBiohazard } from "react-icons/fa";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
 	// {
@@ -15,12 +16,12 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 	// 	path: '/',
 	// 	icon: <HiOutlineViewGrid />
 	// },
-	{
-		key: 'Gov Awarded Tenders',
-		label: 'Gov Awarded Tenders',
-		path: '/gov_awarded',
-		icon: <HiBriefcase />
-	},
+	// {
+	// 	key: 'Gov Awarded Tenders',
+	// 	label: 'Gov Awarded Tenders',
+	// 	path: '/gov_awarded',
+	// 	icon: <HiBriefcase />
+	// },
 	{
 		key: 'WOG BCT',
 		label: 'WOG BCT',
@@ -38,6 +39,12 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		label: 'Cost Calculator',
 		path: '/pulse_cost_calculator',
 		icon: <HiCalculator />
+	},
+	{
+		key: 'Pest Calculator',
+		label: 'Pest Calculator',
+		path: '/pest_cost_calculator',
+		icon: <FaBiohazard/>
 	}
 ]
 

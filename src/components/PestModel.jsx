@@ -1,4 +1,4 @@
-import { FcDataSheet } from "react-icons/fc";
+import { FaBookDead } from "react-icons/fa";
 import { useState } from "react";
 
 export default function CalculatorModel() {
@@ -48,12 +48,12 @@ export default function CalculatorModel() {
         <BoxWrapper>
             <div className='rounded-full h-12 w-12 flex items-center justify-center bg-sky-500'>
 
-                <FcDataSheet className='text-2xl text-white'/> 
+                <FaBookDead  className='text-2xl text-white'/> 
             </div>
             <div className='pl-4'>
                 <span>
                 <strong className='text-xl text-gray-700 font-semibold'>
-                Lump Sump Cost Calculator 
+                Pest Control Cost Calculator 
                 </strong>
                 </span>
             </div>
@@ -62,7 +62,7 @@ export default function CalculatorModel() {
         <div className="flex items-center justify-center bg-gray-100">
         <div className="mt-6">
                 {/* Header for Demo Calculator */}
-                <h4 className="text-l font-semibold text-gray-700 mb-4">This calculator provides an estimated range (min / max ) ($ per sqm) for the Lump Sump based on the GFA / Building Type and Contract Duration provided</h4>
+                <h4 className="text-l font-semibold text-gray-700 mb-4">This calculator provides an estimated range (min / max ) ($ per sqm) for Pest based on the GFA / Building Type and Contract Duration provided</h4>
 
                         {/* Input for GFA */}
                         <div className="mb-4">
@@ -87,7 +87,7 @@ export default function CalculatorModel() {
                         value={buildingType}
                         onChange={(e) => setBuildingType(e.target.value)}
                     >
-                        <option value="">None</option>
+                        <option value=""></option>
                         <option value="Building_Type_Amenity Centre">Amenity Centre</option>
                         <option value="Building_Type_Business Park">Business Park</option>
                         <option value="Building_Type_Flatted Factories">Flatted Factories</option>
