@@ -1,3 +1,4 @@
+// Manage the calculator component 
 import React from 'react'
 import CalculatorModel from './CalculatorModel'
 

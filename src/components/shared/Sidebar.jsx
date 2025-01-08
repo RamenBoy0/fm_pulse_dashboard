@@ -1,3 +1,4 @@
+// Manage the Side bar
 import React from 'react'
 import { FcLineChart } from "react-icons/fc";
 import { Link, useLocation } from 'react-router-dom'
@@ -33,9 +34,7 @@ export default function Sidebar() {
 // Return each item and their respetive icons
 function SidebarLink({ item }) {
     const {pathname} = useLocation()
-    
     return (
-
         <Link to={item.path} className={classNames(pathname === item.path ? 'bg-neutral-700 text-white' : 'text-neutral-400', linkClasses)}>
             <span className='text-xl'>{item.icon}</span>
             {item.label}

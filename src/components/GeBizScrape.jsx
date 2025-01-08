@@ -1,5 +1,5 @@
+// Control the GeBiz components 
 import { FcGlobe } from "react-icons/fc";
-
 export default function GeBizScrape() {
 
     return <div>

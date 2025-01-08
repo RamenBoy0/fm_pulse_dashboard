@@ -1,6 +1,6 @@
+// Manage the routes and components 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Layout from './components/shared/Layout'
-// import Dashboard from './components/Dashboard'
 import Tenders from './components/Tenders'
 import Settings from './components/Setting'
 import HelpSupport from './components/Help'

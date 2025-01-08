@@ -1,6 +1,4 @@
 import React from 'react'
-// import { GoFileSymlinkFile } from "react-icons/go"
-// import { CgProfile } from "react-icons/cg";
 
 export default function Header() {
 

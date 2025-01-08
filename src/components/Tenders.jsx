@@ -1,3 +1,4 @@
+// Manage the tender components
 import React from 'react'
 import TenderList from './TenderList'
 import TendersStatsGrid from './TendersStatsGrid'

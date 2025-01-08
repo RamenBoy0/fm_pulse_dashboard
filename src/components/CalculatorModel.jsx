@@ -11,13 +11,15 @@ export default function CalculatorModel() {
     const handleCalculate = async () => {
         const requestData = {
             GFA: parseFloat(gfa),  // GFA value entered by the user
-            tender_type: buildingType,
+            tender_type: buildingType, // Building Type
             duration : parseInt(duration), // Duration of years
         };
     
-        setLoading(true); // Start loading
+        setLoading(true);  // UseEffect to make API calls and fetch data 
         try {
+            // API Fetch Request
             const response = await fetch("http://127.0.0.1:8000/predict", {
+                // Post Method
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -25,12 +27,14 @@ export default function CalculatorModel() {
                 body: JSON.stringify(requestData),
             });
     
+            // Error response can be more detailed (Future Work)
             if (!response.ok) {
                 throw new Error("Failed to fetch predictions");
             }
     
             const data = await response.json();
             
+            // Set data from JSON payload
             setResult({
                 lower: data.lower_percentile,
                 mean: data.mean_prediction,
@@ -44,10 +48,11 @@ export default function CalculatorModel() {
         setLoading(false); // Stop loading
     };
     
+    // Interface for the Calculator
     return <div>
-        <BoxWrapper>
-            <div className='rounded-full h-12 w-12 flex items-center justify-center bg-sky-500'>
-
+        <BoxWrapper> 
+            <div className='rounded-full h-12 w-12 flex items-center justify-center bg-sky-500'>      
+                {/* Icon for Calculator */}
                 <FcDataSheet className='text-2xl text-white'/> 
             </div>
             <div className='pl-4'>
@@ -64,71 +69,69 @@ export default function CalculatorModel() {
                 {/* Header for Demo Calculator */}
                 <h4 className="text-l font-semibold text-gray-700 mb-4">This calculator provides an estimated range (min / max ) ($ per sqm) for the Lump Sump based on the GFA / Building Type and Contract Duration provided</h4>
 
-                        {/* Input for GFA */}
-                        <div className="mb-4">
-                    <label className="block text-gray-700 font-bold mb-2">
-                        GFA (In sqm)
-                    </label>
-                    <input
-                        type="number"
-                        className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
-                        value={gfa}
-                        onChange={(e) => setGfa(e.target.value)}
-                        placeholder="Enter GFA"
-                    />
+                {/* Input for GFA */}
+                <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">
+                    GFA (In sqm)
+                </label>
+                <input
+                    type="number"
+                    className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+                    value={gfa}
+                    onChange={(e) => setGfa(e.target.value)}
+                    placeholder="Enter GFA"/>
+            
                 </div>
-                      {/* Dropdown for Building Type */}
-                      <div className="mb-4">
-                    <label className="block text-gray-700 font-bold mb-2">
-                        Building Type
-                    </label>
-                    <select
-                        className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
-                        value={buildingType}
-                        onChange={(e) => setBuildingType(e.target.value)}
-                    >
-                        <option value="">None</option>
-                        <option value="Building_Type_Amenity Centre">Amenity Centre</option>
-                        <option value="Building_Type_Business Park">Business Park</option>
-                        <option value="Building_Type_Flatted Factories">Flatted Factories</option>
-                        <option value="Building_Type_Hawker Centre">Hawker Centre</option>
-                        <option value="Building_Type_Standard Factories">Standard Factories</option>
-                        <option value="Building_Type_Workshop">Workshop</option>
-                    </select>
-                </div>
+                {/* Dropdown for Building Type */}
+                <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">
+                    Building Type
+                </label>
+                <select
+                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+                value={buildingType}
+                onChange={(e) => setBuildingType(e.target.value)}>   
+                <option value="">None</option>
+                <option value="Building_Type_Amenity Centre">Amenity Centre</option>
+                <option value="Building_Type_Business Park">Business Park</option>
+                <option value="Building_Type_Flatted Factories">Flatted Factories</option>
+                <option value="Building_Type_Hawker Centre">Hawker Centre</option>
+                <option value="Building_Type_Standard Factories">Standard Factories</option>
+                <option value="Building_Type_Workshop">Workshop</option>
+                </select>
+            </div>
 
-                        {/* Input for Contract Duration */}
-                                        <div className="mb-4">
-                    <label className="block text-gray-700 font-bold mb-2">
-                        Contract Duration (Number of Years)
-                    </label>
-                    <input
-                        type="number"
-                        className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
-                        value={duration}
-                        onChange={(e) => setDuration(e.target.value)}
-                        placeholder="Enter Contract Duration in Years"
-                    />
-                </div>
-                
+                {/* Input for Contract Duration */}
+                <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">
+                    Contract Duration (Number of Years)
+                </label>
+                <input
+                type="number"
+                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
+                placeholder="Enter Contract Duration in Years"/>
+            </div>
+                    {/* Button for Model Prediction */}
                     <button
-                        onClick={handleCalculate}
-                        className="w-full  bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600"
-                        disabled={loading}
-                    >
-                         {loading ? "Calculating..." : "Calculate"}
+                    onClick={handleCalculate}
+                    className="w-full  bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600"
+                    disabled={loading}>
+                    {loading ? "Calculating..." : "Calculate"}
                     </button>
 
                     {/* Mini Loading Bar */}
-                                        {loading && (
+                    {loading && (
                         <div className="w-full bg-blue-100 mt-4 rounded-lg overflow-hidden">
-                            <div
-                                className="h-2 bg-blue-500 animate-pulse"
-                                style={{ width: "100%" }}
-                            ></div>
+                        <div
+                        className="h-2 bg-blue-500 animate-pulse"
+                        style={{ width: "100%" }}
+                        ></div>
                         </div>
                     )}
 
+                    {/* Formatting results */}
                     {result && (
                     <div className="text-xl mt-6 p-4 bg-green-100 text-green-800 rounded-lg">
                         <p>
@@ -142,7 +145,7 @@ export default function CalculatorModel() {
                         </p>
                     </div>
                 )}
-        </div>
+             </div>
         </div>
     </div>
 }

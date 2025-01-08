@@ -1,3 +1,4 @@
+// Manage the GeBiz Components
 import React from 'react'
 import GeBizList from './GeBizList'
 import GeBizScrape from './GeBizScrape'

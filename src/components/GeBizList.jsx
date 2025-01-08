@@ -3,14 +3,12 @@ import { FcSearch } from "react-icons/fc";
 import * as XLSX from "xlsx";
 
 export default function GeBiz() {
-    const [gebiz, setGebiz] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("")
-    const [currentPage, setCurrentPage] = useState(1);
+    const [gebiz, setGebiz] = useState([]); // Set the data
+    const [searchTerm, setSearchTerm] = useState("") // Set the search term
+    const [currentPage, setCurrentPage] = useState(1); // Set the page number
     const rowsPerPage = 6; // Limit to 6 rows per page
-    const [showAll , setShowAll] = useState(false);
-
-    // GeBiz States
-    const [loading, setLoading] = useState(false);
+    const [showAll , setShowAll] = useState(false); // Function to retrieve all data or subset
+    const [loading, setLoading] = useState(false); // Loading State
 
      // UseEffect to make API calls and fetch data 
     useEffect(() => {
@@ -23,10 +21,8 @@ export default function GeBiz() {
             if (showAll){
                 // Add show all if flag enabled
                 url += searchTerm ? '&show_all=true' : '?show_all=true'
-
             }
-    
-            try {
+                try {
                 const response = await fetch(url);
                  // Wait for return response
                 const data = await response.json();
@@ -70,7 +66,7 @@ export default function GeBiz() {
         }
     };    
 
-    // Pagination logic
+    // Pagination logic (Currently set to 6 rows per page)
     const indexOfLastRow = currentPage * rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
     const currentTenders = gebiz.slice(indexOfFirstRow, indexOfLastRow);
@@ -114,33 +110,28 @@ export default function GeBiz() {
              <strong className='text-gray-700 font-medium'>GeBiz Data</strong> 
 
                {/* Scrape from GeBiz*/}
-                                        <button
-                        
-                        className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600"
-                        onClick={handleScrapeClick}
-                        disabled={loading}
+            <button           
+            className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600"
+            onClick={handleScrapeClick}
+            disabled={loading}
                     >{loading ? "Scraping..." : "Scrape to Database"}
                     </button>
                 {/* Export to Excel Button */}
-
                     <button
                         onClick={exportToExcel}
-                        className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600"
-                    >
+                        className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600">
                         Export to Excel
                     </button>
                 </div>
             <div className='flex items-center space-x-2'>
-
-                                    {/* Show All Button */}
-                                    <button
-                        onClick={toggleShowAll}
-                        className="bg-purple-500 text-white font-semibold py-2 px-4 me-6 rounded-lg hover:bg-purple-600"
+                {/* Show All Button */}
+                    <button
+                    onClick={toggleShowAll}
+                    className="bg-purple-500 text-white font-semibold py-2 px-4 me-6 rounded-lg hover:bg-purple-600"
                     >
-                        {showAll ? "Show Paginated" : "Show All"}
+                    {showAll ? "Show Paginated" : "Show All"}
                     </button>
-
-                   {/* Search Button */}
+                {/* Search Button */}
             <FcSearch className='text-xl'/>
             <input
                         type='text'
@@ -151,23 +142,21 @@ export default function GeBiz() {
                     />
                 </div>
             </div>
-
             <div className='mt-3'>
-
                  {/* Table of Data */}
                 <div className="overflow-y-auto max-h-[60vh]">
                     <table className="w-full text-gray-700">
                         <thead className="bg-gray-200 text-gray-800 font-semibold">
-                            <tr className="border-b-2 border-gray-300">
-                                <th className="px-4 py-2">Title</th>
-                                <th className="px-4 py-2">Agency</th>
-                                <th className="px-4 py-2">Description</th>
-                                <th className="px-4 py-2">Price</th>
-                                <th className="px-4 py-2">Status</th>
-                                <th className="px-4 py-2">WOG</th>
-                                <th className="px-4 py-2">Date</th>
-                                <th className="px-4 py-2">Awarded Agency</th>
-                            </tr>
+                        <tr className="border-b-2 border-gray-300">
+                            <th className="px-4 py-2">Title</th>
+                            <th className="px-4 py-2">Agency</th>
+                            <th className="px-4 py-2">Description</th>
+                            <th className="px-4 py-2">Price</th>
+                            <th className="px-4 py-2">Status</th>
+                            <th className="px-4 py-2">WOG</th>
+                            <th className="px-4 py-2">Date</th>
+                            <th className="px-4 py-2">Awarded Agency</th>
+                        </tr>
                         </thead>
                         <tbody>
                             {/* Map data to table */}
