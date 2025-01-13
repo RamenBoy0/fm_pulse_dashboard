@@ -88,7 +88,7 @@ export default function CalculatorModel() {
                         value={buildingType}
                         onChange={(e) => setBuildingType(e.target.value)}
                     >
-                        <option value=""></option>
+                        <option value="">None</option>
                         <option value="Building_Type_Amenity Centre">Amenity Centre</option>
                         <option value="Building_Type_Business Park">Business Park</option>
                         <option value="Building_Type_Flatted Factories">Flatted Factories</option>

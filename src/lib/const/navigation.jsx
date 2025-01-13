@@ -4,7 +4,11 @@ import {
 	HiOutlineQuestionMarkCircle,
 	HiOutlineCog,
 	HiCalculator,
-	HiDatabase 
+	HiDatabase
+	// HiBeaker,
+	// HiOfficeBuilding,
+	// HiLightBulb,
+	// HiHand
 } from 'react-icons/hi'
 
 import { FaBiohazard } from "react-icons/fa";
@@ -46,6 +50,36 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		path: '/pest_cost_calculator',
 		icon: <FaBiohazard/>
 	}
+	// },
+
+	// {
+	// 	key: 'Cleaning & Waste Calculator',
+	// 	label: 'Cleaning & Waste Calculator',
+	// 	path: '/',
+	// 	icon: <HiBeaker/>
+	// }
+	// ,
+
+	// {
+	// 	key: 'Landscape and Maintenance Calculator',
+	// 	label: 'Landscape and Maintenance Calculator',
+	// 	path: '/',
+	// 	icon: <HiOfficeBuilding/>
+	// },
+	// {
+	// 	key: 'Mechanical and Electrical Calculator',
+	// 	label: 'Mechanical and Electrical Calculator',
+	// 	path: '/',
+	// 	icon: <HiLightBulb/>
+	// }
+	// ,
+	// {
+	// 	key: 'Sani',
+	// 	label: 'Mechanical and Electrical Calculator',
+	// 	path: '/',
+	// 	icon: <HiHand/>
+	// }
+
 ]
 
 export const DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
