@@ -1,3 +1,7 @@
+// Has 2 API calls to fetch data from database 
+
+// 1st API call returns all data from the BCT table for viewing
+// 2nd API call returns only the tender names for when user uploads raw contracts
 import React, { useEffect, useState} from 'react';
 import { FcSearch } from "react-icons/fc";
 import * as XLSX from "xlsx";

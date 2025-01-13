@@ -1,3 +1,4 @@
+// Has a API call to the backend to scrape data from GeBiz and import it to the Database (Subjected to change)
 import React, { useEffect, useState } from 'react';
 import { FcSearch } from "react-icons/fc";
 import * as XLSX from "xlsx";
