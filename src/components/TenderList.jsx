@@ -20,6 +20,8 @@ export default function TenderList() {
     // Loading
     const [loading, setLoading] = useState(false);
     const [showAll , setShowAll] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
+     const [editedTenders, setEditedTenders] = useState([]);
 
     // Popup for data import
     const [agencies, setAgencies] = useState([]);
@@ -30,6 +32,7 @@ export default function TenderList() {
     const [startingYear, setStartingYear] = useState("");
     const [startingMonth, setStartingMonth] = useState(" ");
     const [isAwarded, setIsAwarded] = useState(false);
+    const [gfa, setGfa] = useState(0);
     const [file, setFile] = useState(null);
     const [newAgency, setNewAgency] = useState('NIL');
     const[newTenderName, setNewTenderName] = useState('NIL');
@@ -62,6 +65,9 @@ export default function TenderList() {
 
         // Append either the existing 'tender names' or the new 'newTenderName'
         formData.append("tenderName", selectedTender ? selectedTender : newTenderName);
+
+        // Append GFA
+        formData.append("gfa", gfa);
 
         // If selected agency or tender is empty
         if(!selectedAgency || !selectedTender){
@@ -220,6 +226,34 @@ export default function TenderList() {
 
     }
 
+    // Function to handle editing of tables
+    const handleEditToggle = () => {
+        if (!isEditMode) {
+            // Initialize editedTenders with a copy of currentTenders when entering edit mode
+            setEditedTenders(JSON.parse(JSON.stringify(currentTenders))); // Deep copy
+        } else {
+            // Exit edit mode without saving
+            setEditedTenders([]);
+        }
+        setIsEditMode(!isEditMode); // Toggle edit mode
+    };
+
+    // Function to handle change in input
+    const handleInputChange = (e, tenderId, field) => {
+        const updatedTenders = editedTenders.map((tender) =>
+          tender.tender_id === tenderId
+            ? { ...tender, [field]: e.target.value }
+            : tender
+        );
+        setEditedTenders(updatedTenders);
+      };
+
+      const saveChanges = () => {
+        // Save changes made in editedTenders back to tenders
+        setTenders(editedTenders);
+        setIsEditMode(false); // Exit edit mode
+    };
+ 
     
     return (
         <div className='bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1'>
@@ -404,6 +438,19 @@ export default function TenderList() {
                         </select>
                     </div>
 
+                    <div className="mb-3">
+                    <label className="block font-medium text-gray-700">
+                        Building Size (GFA / sqm)
+                    </label>
+                    <input 
+                    type ="number"
+                    value={gfa}
+                    onChange={(e) => setGfa(e.target.value)}
+                    className="border px-3 py-2 rounded-md w-full"
+                    placeholder="Enter building sqm (Square Meter)"
+                        />
+                    </div>
+
                             <div className="mb-3">
                         <label className="block font-medium text-gray-700">
                             Upload File
@@ -440,6 +487,34 @@ export default function TenderList() {
         </button>
         </div>
         <div className='flex items-center space-x-2'>
+
+                    {/* Edit Button */}
+                    <div>
+                            {isEditMode ? (
+                                <>
+                                    <button
+                                        onClick={saveChanges}
+                                        className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 mr-2"
+                                    >
+                                        Save Changes
+                                    </button>
+                                    <button
+                                        onClick={() => setIsEditMode(false)}
+                                        className="bg-gray-300 text-black py-2 px-4 rounded-lg hover:bg-gray-400"
+                                    >
+                                        Cancel
+                                    </button>
+                                </>
+                            ) : (
+                                <button
+                                    onClick={handleEditToggle}
+                                    className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600"
+                                >
+                                    Edit Table
+                                </button>
+                            )}
+                        </div>
+
 
         {/* Show All Button */}
                 <button
@@ -478,21 +553,117 @@ export default function TenderList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {/* Map data to table */}
-                    {currentTenders.map((tender) => (
-                        <tr key={tender.tender_id}
-                        className={isRecent(tender.date_created) ? 'bg-yellow-100' : ''}>
-                            <td className="border px-4 py-2">{tender.year}</td>
-                            <td className="border px-4 py-2">{tender.tender_name}</td>
-                            <td className="border px-4 py-2">{tender.agency}</td>
-                            <td className="border px-4 py-2">{tender.tender_outcome}</td>
-                            <td className="border px-4 py-2">{tender.property}</td>
-                            <td className="border px-4 py-2">{tender.building_type}</td>
-                            <td className="border px-4 py-2">{tender.gfa}</td>
-                            <td className="border px-4 py-2">{new Date(tender.date).toLocaleDateString()}</td>
-                        </tr>
-                    ))}
+                {/* Map data to table */}
+                {currentTenders.map((tender) => {
+                    // Check if the current tender is being edited
+                    const isEditing = editedTenders.find((et) => et.tender_id === tender.tender_id);
+
+                    return (
+                    <tr
+                        key={tender.tender_id}
+                        className={isRecent(tender.date_created) ? "bg-yellow-100" : ""}
+                    >
+                        <td className="border px-4 py-2">
+                        {isEditMode ? (
+                            <input
+                            type="text"
+                            value={isEditing ? isEditing.year || "" : tender.year || ""}
+                            onChange={(e) => handleInputChange(e, tender.tender_id, "year")}
+                            className="w-full max-w-[150px]" // Limit the input field width
+                            />
+                        ) : (
+                            tender.year
+                        )}
+                        </td>
+                        <td className="border px-4 py-2">
+                        {isEditMode ? (
+                            <input
+                            type="text"
+                            value={isEditing ? isEditing.tender_name || "" : tender.tender_name || ""}
+                            onChange={(e) => handleInputChange(e, tender.tender_id, "tender_name")}
+                            className="w-full max-w-[250px]" // Limit the input field width
+                            />
+                        ) : (
+                            tender.tender_name
+                        )}
+                        </td>
+                        <td className="border px-4 py-2">
+                        {isEditMode ? (
+                            <input
+                            type="text"
+                            value={isEditing ? isEditing.agency || "" : tender.agency || ""}
+                            onChange={(e) => handleInputChange(e, tender.tender_id, "agency")}
+                            className="w-full max-w-[200px]" // Limit the input field width
+                            />
+                        ) : (
+                            tender.agency
+                        )}
+                        </td>
+                        <td className="border px-4 py-2">
+                        {isEditMode ? (
+                            <input
+                            type="text"
+                            value={tender.tender_outcome}
+                            onChange={(e) => handleInputChange(e, tender.tender_id, "isAwarded")}
+                            className="w-full max-w-[150px]" // Limit the input field width
+                            />
+                        ) : (
+                            tender.tender_outcome
+                        )}
+                        </td>
+                        <td className="border px-4 py-2">
+                        {isEditMode ? (
+                            <input
+                            type="text"
+                            value={isEditing ? isEditing.property || "" : tender.property || ""}
+                            onChange={(e) => handleInputChange(e, tender.tender_id, "property")}
+                            className="w-full max-w-[200px]" // Limit the input field width
+                            />
+                        ) : (
+                            tender.property
+                        )}
+                        </td>
+                        <td className="border px-4 py-2">
+                        {isEditMode ? (
+                            <input
+                            type="text"
+                            value={isEditing ? isEditing.building_type || "" : tender.building_type || ""}
+                            onChange={(e) => handleInputChange(e, tender.tender_id, "building_type")}
+                            className="w-full max-w-[200px]" // Limit the input field width
+                            />
+                        ) : (
+                            tender.building_type
+                        )}
+                        </td>
+                        <td className="border px-4 py-2">
+                        {isEditMode ? (
+                            <input
+                            type="text"
+                            value={isEditing ? isEditing.gfa || "" : tender.gfa || ""}
+                            onChange={(e) => handleInputChange(e, tender.tender_id, "gfa")}
+                            className="w-full max-w-[150px]" // Limit the input field width
+                            />
+                        ) : (
+                            tender.gfa
+                        )}
+                        </td>
+                        <td className="border px-4 py-2">
+                        {isEditMode ? (
+                            <input
+                            type="text"
+                            value={new Date(tender.date).toLocaleDateString()}
+                            onChange={(e) => handleInputChange(e, tender.tender_id, "date")}
+                            className="w-full max-w-[150px]" // Limit the input field width
+                            />
+                        ) : (
+                            new Date(tender.date).toLocaleDateString()
+                        )}
+                        </td>
+                    </tr>
+                    );
+                })}
                 </tbody>
+
             </table>
 
             {/* Pagination Controls */}
