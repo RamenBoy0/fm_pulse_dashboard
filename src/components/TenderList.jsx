@@ -226,7 +226,7 @@ export default function TenderList() {
 
     }
 
-    // Function to handle editing of tables
+    // Function to toggle editing 
     const handleEditToggle = () => {
         if (!isEditMode) {
             // Initialize editedTenders with a copy of currentTenders when entering edit mode
@@ -238,16 +238,17 @@ export default function TenderList() {
         setIsEditMode(!isEditMode); // Toggle edit mode
     };
 
-    // Function to handle change in input
+    // Function to handle change in input when editing
     const handleInputChange = (e, tenderId, field) => {
-        const updatedTenders = editedTenders.map((tender) =>
+        const updatedTenders = editedTenders.map((tender) => // Map edited tenders to the updated one 
           tender.tender_id === tenderId
-            ? { ...tender, [field]: e.target.value }
+            ? { ...tender, [field]: e.target.value } // Reflect changes of update tenders 
             : tender
         );
         setEditedTenders(updatedTenders);
       };
 
+    // Function to save after clicking on save button 
       const saveChanges = () => {
         // Save changes made in editedTenders back to tenders
         setTenders(editedTenders);
