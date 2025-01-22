@@ -1,5 +1,5 @@
-import { FcDataSheet } from "react-icons/fc";
 import { useState } from "react";
+import { FaCalculator } from "react-icons/fa";
 
 export default function CalculatorModel() {
     const [gfa, setGfa] = useState(""); // State for GFA input
@@ -8,17 +8,48 @@ export default function CalculatorModel() {
     const [result, setResult] = useState(null); // State for calculation result
     const [loading, setLoading] = useState(false); // State for loading
 
+    // Define trait costs for model 
+    const costList = [
+        "Preliminaries",
+        "Corporation_Requirements_and_Scope_of_Works_Manpower_Cost",
+        "Cleaning_and_Waste_Management",
+        "Pest_Control",
+        "Landscape_Maintenance",
+        "Sanitary_and_Plumbing_Maintenance",
+        "Security_Services",
+        "Mechanical_and_Electrical_Services_Maintenance",
+    ];
+
+    const [checkedCosts, setCheckedCosts] = useState(
+        costList.reduce((acc, cost) => ({ ...acc, [cost]: false }), {}) // Initialize state as a dictionary
+      );
+
+    // Handle checkbox changes
+      const handleCheckboxChange = (cost) => {
+        setCheckedCosts((prev) => ({
+          ...prev,
+          [cost]: !prev[cost],
+        }));
+      };
+
+    const getCheckedCosts = () => {
+        return Object.fromEntries(
+          Object.entries(checkedCosts).filter(([key, value]) => value) // Return only checked items
+        );
+      };
+
     const handleCalculate = async () => {
         const requestData = {
             GFA: parseFloat(gfa),  // GFA value entered by the user
             tender_type: buildingType, // Building Type
             duration : parseInt(duration), // Duration of years
+            selectedCosts: Object.keys(getCheckedCosts()), // Convert list of checked items
         };
     
         setLoading(true);  // UseEffect to make API calls and fetch data 
         try {
             // API Fetch Request
-            const response = await fetch("http://127.0.0.1:8000/predict", {
+            const response = await fetch("http://127.0.0.1:8000/jtc_predict", {
                 // Post Method
                 method: "POST",
                 headers: {
@@ -36,9 +67,8 @@ export default function CalculatorModel() {
             
             // Set data from JSON payload
             setResult({
-                lower: data.lower_percentile,
-                mean: data.mean_prediction,
-                upper : data.upper_percentile
+                trait_cost: data.trait_cost,
+                cost_breakdown: data.cost_breakdown
             });
 
         } catch (error) {
@@ -53,21 +83,21 @@ export default function CalculatorModel() {
         <BoxWrapper> 
             <div className='rounded-full h-12 w-12 flex items-center justify-center bg-sky-500'>      
                 {/* Icon for Calculator */}
-                <FcDataSheet className='text-2xl text-white'/> 
+                <FaCalculator className='text-2xl text-white'/> 
             </div>
             <div className='pl-4'>
                 <span>
                 <strong className='text-xl text-gray-700 font-semibold'>
-                Lump Sump Cost Calculator 
+                Jurong Town Corporation (JTC) Trait Cost Calculator
                 </strong>
                 </span>
             </div>
         </BoxWrapper>
     
         <div className="flex items-center justify-center bg-gray-100">
-        <div className="mt-6">
+        <div className="mt-6 overflow-y-auto max-h-screen">
                 {/* Header for Demo Calculator */}
-                <h4 className="text-l font-semibold text-gray-700 mb-4">This calculator provides an estimated range (min / max ) ($ per sqm) for the Lump Sump based on the GFA / Building Type and Contract Duration provided</h4>
+                <h4 className="text-l font-semibold text-gray-700 mb-4">This calculator provides an estimated range (min / max ) ($ per sqm) for the Total Sum and Trait Cost based on the GFA / Building Type and Contract Duration provided</h4>
 
                 {/* Input for GFA */}
                 <div className="mb-4">
@@ -91,7 +121,7 @@ export default function CalculatorModel() {
                 className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
                 value={buildingType}
                 onChange={(e) => setBuildingType(e.target.value)}>   
-                <option value="">None</option>
+                <option value="" disabled selected>Select Building Type</option>
                 <option value="Building_Type_Amenity Centre">Amenity Centre</option>
                 <option value="Building_Type_Business Park">Business Park</option>
                 <option value="Building_Type_Flatted Factories">Flatted Factories</option>
@@ -113,6 +143,29 @@ export default function CalculatorModel() {
                 onChange={(e) => setDuration(e.target.value)}
                 placeholder="Enter Contract Duration in Years"/>
             </div>
+
+                    {/* Checkboxes for Cost List */}
+                    <div className="mb-4">
+                        <label className="block text-gray-700 font-bold mb-2">Predict Costs For:</label>
+                        <div className="grid grid-cols-2 gap-2">
+                            {costList.map((cost, index) => (
+                            <div key={index} className="flex items-center space-x-4">
+                                <input
+                                type="checkbox"
+                                id={`cost-${index}`}
+                                value={cost}
+                                checked={checkedCosts[cost]}
+                                onChange={(e) => handleCheckboxChange(e.target.value)}
+                                className="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400"
+                                />
+                                <label htmlFor={`cost-${index}`} className="text-gray-700 font-bold">
+                                {cost}
+                                </label>
+                            </div>
+                            ))}
+                        </div>
+                        </div>
+                        
                     {/* Button for Model Prediction */}
                     <button
                     onClick={handleCalculate}
@@ -130,21 +183,71 @@ export default function CalculatorModel() {
                         ></div>
                         </div>
                     )}
+                    {/* Predictions */}
+                    <div className="flex flex-col min-h-screen">
+                        <div className="flex-1 overflow-y-auto">
+                            {result && (
+                            <div className="text-xl mt-6 p-4 bg-green-100 text-green-800 rounded-lg">
+                                <p>
+                                <strong>Trait Cost Prediction:</strong>
+                                </p>
+                                {/* Side-by-side tables */}
+                                <div className="flex flex-wrap gap-4 mt-4">
+                                    {/* Table for Trait Cost */}
+                                    <div className="flex-1 min-w-[300px] max-w-[50%] bg-white rounded-lg shadow-md p-4">
+                                        <h5 className="text-lg font-bold mb-4">Trait Cost Benchmark ($ per sqm)</h5>
+                                        <div className="overflow-y-auto max-h-[400px]">
+                                            <table className="min-w-full table-auto">
+                                                <thead>
+                                                    <tr>
+                                                        <th className="px-4 py-2 text-left">Trait Cost</th>
+                                                        <th className="px-4 py-2 text-left">Lower Bound</th>
+                                                        <th className="px-4 py-2 text-left">Upper Bound</th>
+                                                        <th className="px-4 py-2 text-left">Predicted</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {Object.entries(result.trait_cost).map(([key, value]) => (
+                                                        <tr key={key}>
+                                                            <td className="px-4 py-2">{key}</td>
+                                                            <td className="px-4 py-2">${value.Lower.toFixed(2)}</td>
+                                                            <td className="px-4 py-2">${value.Upper.toFixed(2)}</td>
+                                                            <td className="px-4 py-2">${value.Mean.toFixed(2)}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
 
-                    {/* Formatting results */}
-                    {result && (
-                    <div className="text-xl mt-6 p-4 bg-green-100 text-green-800 rounded-lg">
-                        <p>
-                            <strong>Lower Bound: </strong> ${result.lower.toFixed(2)} / sqm
-                        </p>
-                        <p>
-                            <strong>Predicted Value: </strong> ${result.mean.toFixed(2)} / sqm
-                        </p>
-                        <p>
-                            <strong>Upper Bound: </strong> ${result.upper.toFixed(2)} / sqm
-                        </p>
+                                    {/* Table for Cost Breakdown */}
+                                    <div className="flex-1 min-w-[300px] max-w-[50%] bg-white rounded-lg shadow-md p-4">
+                                        <h5 className="text-lg font-bold mb-4">Trait Cost Breakdown (%)</h5>
+                                        <div className="overflow-y-auto max-h-[400px]">
+                                            <table className="min-w-full table-auto">
+                                                <thead>
+                                                    <tr>
+                                                        <th className="px-4 py-2 text-left">Trait Cost</th>
+                                                        <th className="px-4 py-2 text-left">Percentage</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {Object.entries(result.cost_breakdown).map(([key, value]) => (
+                                                        <tr key={key}>
+                                                            <td className="px-4 py-2">{key}</td>
+                                                            <td className="px-4 py-2">{value.toFixed(2)}%</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            )}
+                        </div>
                     </div>
-                )}
+
              </div>
         </div>
     </div>

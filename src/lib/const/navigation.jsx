@@ -3,7 +3,6 @@ import {
 	HiOutlineCube,
 	HiOutlineQuestionMarkCircle,
 	HiOutlineCog,
-	HiCalculator,
 	HiDatabase
 	// HiBeaker,
 	// HiOfficeBuilding,
@@ -11,7 +10,10 @@ import {
 	// HiHand
 } from 'react-icons/hi'
 
-import { FaBiohazard } from "react-icons/fa";
+import {FaRegBuilding,
+		FaGlobeAsia
+ } 
+ from "react-icons/fa";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
 	// {
@@ -39,16 +41,16 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		icon: <HiDatabase  />
 	},
 	{
-		key: 'Cost Calculator',
-		label: 'Cost Calculator',
-		path: '/pulse_cost_calculator',
-		icon: <HiCalculator />
-	},
-	{
 		key: 'Pest Calculator',
-		label: 'Pest Calculator',
-		path: '/pest_cost_calculator',
-		icon: <FaBiohazard/>
+		label: 'WOG Cost Calculator',
+		path: '/wog_cost_calculator',
+		icon:<FaGlobeAsia />
+	},	
+	{
+		key: 'Cost Calculator',
+		label: 'JTC Cost Calculator',
+		path: '/pulse_cost_calculator',
+		icon: <FaRegBuilding />
 	}
 	// },
 

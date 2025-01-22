@@ -6,7 +6,7 @@ import Settings from './components/Setting'
 import HelpSupport from './components/Help'
 import Calculator from './components/Calculator'
 import GeBiz from './components/GeBiz'
-import Pest from './components/Pest'
+import WOG from './components/WOG'
 
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
                     <Route path='wog_bct' element={<Tenders />} />
                     <Route path='gebiz' element={<GeBiz />} />
                     <Route path='pulse_cost_calculator' element={<Calculator />} />
-                    <Route path='pest_cost_calculator' element={<Pest />} />
+                    <Route path='wog_cost_calculator' element={<WOG />} />
                     <Route path='settings' element={<Settings />} />
                     <Route path='help' element={<HelpSupport />} />
                 </Route>

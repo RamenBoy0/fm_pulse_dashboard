@@ -1,8 +1,8 @@
 // WORK IN PROGRESS (Copied over from Cost Calculator)
-import { FaBookDead } from "react-icons/fa";
+import { FaCalculator } from "react-icons/fa";
 import { useState } from "react";
 
-export default function CalculatorModel() {
+export default function WOGModel() {
     const [gfa, setGfa] = useState(""); // State for GFA input
     const [buildingType, setBuildingType] = useState(""); // State for dropdown 
     const [duration, setDuration] = useState(""); // State for contract duration
@@ -12,13 +12,13 @@ export default function CalculatorModel() {
     const handleCalculate = async () => {
         const requestData = {
             GFA: parseFloat(gfa),  // GFA value entered by the user
-            tender_type: buildingType,
+            tender_type: parseInt(buildingType),
             duration : parseInt(duration), // Duration of years
         };
     
         setLoading(true); // Start loading
         try {
-            const response = await fetch("http://127.0.0.1:8000/predict", {
+            const response = await fetch("http://127.0.0.1:8000/wog_predict", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -49,21 +49,21 @@ export default function CalculatorModel() {
         <BoxWrapper>
             <div className='rounded-full h-12 w-12 flex items-center justify-center bg-sky-500'>
 
-                <FaBookDead  className='text-2xl text-white'/> 
+                <FaCalculator className='text-2xl text-white'/> 
             </div>
             <div className='pl-4'>
                 <span>
                 <strong className='text-xl text-gray-700 font-semibold'>
-                Pest Control Cost Calculator 
+                Whole of Government (WOG) Total Cost Calculator 
                 </strong>
                 </span>
             </div>
         </BoxWrapper>
     
         <div className="flex items-center justify-center bg-gray-100">
-        <div className="mt-6">
+        <div className="mt-6 overflow-y-auto max-h-screen">
                 {/* Header for Demo Calculator */}
-                <h4 className="text-l font-semibold text-gray-700 mb-4">This calculator provides an estimated range (min / max ) ($ per sqm) for Pest based on the GFA / Building Type and Contract Duration provided</h4>
+                <h4 className="text-l font-semibold text-gray-700 mb-4">This calculator provides an estimated range (min / max ) ($ per sqm) for the Total Cost of a building based on the GFA / Building Type and Contract Duration provided</h4>
 
                         {/* Input for GFA */}
                         <div className="mb-4">
@@ -86,15 +86,10 @@ export default function CalculatorModel() {
                     <select
                         className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
                         value={buildingType}
-                        onChange={(e) => setBuildingType(e.target.value)}
-                    >
-                        <option value="">None</option>
-                        <option value="Building_Type_Amenity Centre">Amenity Centre</option>
-                        <option value="Building_Type_Business Park">Business Park</option>
-                        <option value="Building_Type_Flatted Factories">Flatted Factories</option>
-                        <option value="Building_Type_Hawker Centre">Hawker Centre</option>
-                        <option value="Building_Type_Standard Factories">Standard Factories</option>
-                        <option value="Building_Type_Workshop">Workshop</option>
+                        onChange={(e) => setBuildingType(e.target.value)}>
+                        <option value="" disabled selected>Select Building Type</option>
+                        <option value="1">Standalone</option>
+                        <option value="0">Cluster</option>
                     </select>
                 </div>
 
