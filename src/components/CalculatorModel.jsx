@@ -20,6 +20,7 @@ export default function CalculatorModel() {
         "Mechanical_and_Electrical_Services_Maintenance",
     ];
 
+    // Define state for trait cost 
     const [checkedCosts, setCheckedCosts] = useState(
         costList.reduce((acc, cost) => ({ ...acc, [cost]: false }), {}) // Initialize state as a dictionary
       );
@@ -203,7 +204,7 @@ export default function CalculatorModel() {
                                                         <th className="px-4 py-2 text-left">Trait Cost</th>
                                                         <th className="px-4 py-2 text-left">Lower Bound</th>
                                                         <th className="px-4 py-2 text-left">Upper Bound</th>
-                                                        <th className="px-4 py-2 text-left">Predicted</th>
+                                                        <th className="px-4 py-2 text-left">Mean</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -222,7 +223,7 @@ export default function CalculatorModel() {
 
                                     {/* Table for Cost Breakdown */}
                                     <div className="flex-1 min-w-[300px] max-w-[50%] bg-white rounded-lg shadow-md p-4">
-                                        <h5 className="text-lg font-bold mb-4">Trait Cost Breakdown (%)</h5>
+                                        <h5 className="text-lg font-bold mb-4">Trait Cost Breakdown (%) (Total Sum based on Mean)</h5>
                                         <div className="overflow-y-auto max-h-[400px]">
                                             <table className="min-w-full table-auto">
                                                 <thead>
