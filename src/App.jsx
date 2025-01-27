@@ -14,7 +14,7 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    <Route index element={<Calculator />} />
+                    <Route index element={<Tenders />} />
                     <Route path='wog_bct' element={<Tenders />} />
                     <Route path='gebiz' element={<GeBiz />} />
                     <Route path='pulse_cost_calculator' element={<Calculator />} />
