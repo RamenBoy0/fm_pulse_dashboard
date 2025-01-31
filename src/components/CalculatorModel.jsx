@@ -89,7 +89,7 @@ export default function CalculatorModel() {
             <div className='pl-4'>
                 <span>
                 <strong className='text-xl text-gray-700 font-semibold'>
-                Jurong Town Corporation (JTC) Trait Cost Calculator
+                Jurong Town Corporation (JTC) Trade Cost Calculator
                 </strong>
                 </span>
             </div>
@@ -98,7 +98,7 @@ export default function CalculatorModel() {
         <div className="flex items-center justify-center bg-gray-100">
         <div className="mt-6 overflow-y-auto max-h-screen">
                 {/* Header for Demo Calculator */}
-                <h4 className="text-l font-semibold text-gray-700 mb-4">This calculator provides an estimated range (min / max ) ($ per sqm) for the Total Sum and Trait Cost based on the GFA / Building Type and Contract Duration provided</h4>
+                <h4 className="text-l font-semibold text-gray-700 mb-4">This calculator provides an estimated range (min / max ) ($ per sqm) for the Total Sum and Trade Cost based on the GFA / Building Type and Contract Duration provided</h4>
 
                 {/* Input for GFA */}
                 <div className="mb-4">
@@ -190,18 +190,18 @@ export default function CalculatorModel() {
                             {result && (
                             <div className="text-xl mt-6 p-4 bg-green-100 text-green-800 rounded-lg">
                                 <p>
-                                <strong>Trait Cost Prediction:</strong>
+                                <strong>Trade Cost Prediction:</strong>
                                 </p>
                                 {/* Side-by-side tables */}
                                 <div className="flex flex-wrap gap-4 mt-4">
                                     {/* Table for Trait Cost */}
                                     <div className="flex-1 min-w-[300px] max-w-[50%] bg-white rounded-lg shadow-md p-4">
-                                        <h5 className="text-lg font-bold mb-4">Trait Cost Benchmark ($ per sqm)</h5>
+                                        <h5 className="text-lg font-bold mb-4">Trade Cost Benchmark ($ per sqm)</h5>
                                         <div className="overflow-y-auto max-h-[400px]">
                                             <table className="min-w-full table-auto">
                                                 <thead>
                                                     <tr>
-                                                        <th className="px-4 py-2 text-left">Trait Cost</th>
+                                                        <th className="px-4 py-2 text-left">Trade Cost</th>
                                                         <th className="px-4 py-2 text-left">Lower Bound</th>
                                                         <th className="px-4 py-2 text-left">Upper Bound</th>
                                                         <th className="px-4 py-2 text-left">Mean</th>
@@ -223,12 +223,12 @@ export default function CalculatorModel() {
 
                                     {/* Table for Cost Breakdown */}
                                     <div className="flex-1 min-w-[300px] max-w-[50%] bg-white rounded-lg shadow-md p-4">
-                                        <h5 className="text-lg font-bold mb-4">Trait Cost Breakdown (%) (Total Sum based on Mean)</h5>
+                                        <h5 className="text-lg font-bold mb-4">Trade Cost Breakdown (%) (Total Sum based on Mean)</h5>
                                         <div className="overflow-y-auto max-h-[400px]">
                                             <table className="min-w-full table-auto">
                                                 <thead>
                                                     <tr>
-                                                        <th className="px-4 py-2 text-left">Trait Cost</th>
+                                                        <th className="px-4 py-2 text-left">Trade Cost</th>
                                                         <th className="px-4 py-2 text-left">Percentage</th>
                                                     </tr>
                                                 </thead>
