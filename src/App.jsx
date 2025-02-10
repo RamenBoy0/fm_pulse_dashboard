@@ -1,5 +1,6 @@
 // Manage the routes and components 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Home from './components/Home'
 import Layout from './components/shared/Layout'
 import Tenders from './components/Tenders'
 import Settings from './components/Setting'
@@ -14,7 +15,8 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    <Route index element={<Tenders />} />
+                    <Route index element={<Home />} />
+                    <Route path='home' element={<Home />} />
                     <Route path='wog_bct' element={<Tenders />} />
                     <Route path='gebiz' element={<GeBiz />} />
                     <Route path='pulse_cost_calculator' element={<Calculator />} />

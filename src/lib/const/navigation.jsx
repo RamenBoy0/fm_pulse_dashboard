@@ -2,7 +2,7 @@ import {
 	// HiOutlineViewGrid,
 	HiOutlineCube,
 	HiOutlineQuestionMarkCircle,
-	HiOutlineCog,
+	// HiOutlineCog,
 	HiDatabase
 	// HiBeaker,
 	// HiOfficeBuilding,
@@ -10,24 +10,23 @@ import {
 	// HiHand
 } from 'react-icons/hi'
 
+import { IoHomeOutline } 
+from "react-icons/io5";
+
 import {FaRegBuilding,
 		FaGlobeAsia
  } 
  from "react-icons/fa";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
-	// {
-	// 	key: 'FM Companies',
-	// 	label: 'FM Companies',
-	// 	path: '/',
-	// 	icon: <HiOutlineViewGrid />
-	// },
-	// {
-	// 	key: 'Gov Awarded Tenders',
-	// 	label: 'Gov Awarded Tenders',
-	// 	path: '/gov_awarded',
-	// 	icon: <HiBriefcase />
-	// },
+
+	{
+		key: 'Home',
+		label: 'Home',
+		path: '/home',
+		icon: <IoHomeOutline/>
+	},
+
 	{
 		key: 'WOG BCT',
 		label: 'WOG BCT',
@@ -85,12 +84,12 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 ]
 
 export const DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
-	{
-		key: 'settings',
-		label: 'Settings',
-		path: '/settings',
-		icon: <HiOutlineCog />
-	},
+	// {
+	// 	key: 'settings',
+	// 	label: 'Settings',
+	// 	path: '/settings',
+	// 	icon: <HiOutlineCog />
+	// },
 	{
 		key: 'support',
 		label: 'Help & Support',
