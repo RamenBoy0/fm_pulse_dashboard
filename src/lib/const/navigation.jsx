@@ -1,95 +1,96 @@
-import {
-	// HiOutlineViewGrid,
-	HiOutlineCube,
-	HiOutlineQuestionMarkCircle,
-	// HiOutlineCog,
-	HiDatabase
-	// HiBeaker,
-	// HiOfficeBuilding,
-	// HiLightBulb,
-	// HiHand
-} from 'react-icons/hi'
+import { HiOutlineQuestionMarkCircle } 
+from 'react-icons/hi'
 
 import { IoHomeOutline } 
 from "react-icons/io5";
 
-import {FaRegBuilding,
-		FaGlobeAsia
- } 
- from "react-icons/fa";
+import { FaRegBuilding, FaGlobeAsia } 
+from "react-icons/fa";
+
+import { FaDatabase, FaCalculator, FaCubes, FaCube, FaBook } 
+from "react-icons/fa";
+
+import { FcLineChart } 
+from "react-icons/fc";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
 
 	{
-		key: 'Home',
-		label: 'Home',
-		path: '/home',
-		icon: <IoHomeOutline/>
-	},
+	key: 'Home',
+	label: 'Home',
+	icon: <IoHomeOutline/>,
+	children: [
+		{
+			key: 'FM Pulse',
+			label: 'FM Pulse',
+			path: '/home',
+			icon: <FcLineChart/>
+		}
 
+		,{
+			key: 'About',
+			label: 'About',
+			icon: <FaBook/>,
+			children : [
+				{
+					key: 'AboutRepository',
+					label: 'Repository',
+					path: '/about_repo'
+				
+				},
+				{
+					key: 'AboutCalculator',
+					label: 'Calculator',
+					path: '/about_cal'
+				
+				}
+			]
+		}
+	]
+}
+,
 	{
-		key: 'WOG BCT',
-		label: 'WOG BCT',
-		path: '/wog_bct',
-		icon: <HiOutlineCube />
-	},
+        key: 'Repositories',
+        label: 'Repositories',
+		icon: <FaDatabase/>,
+        children: [
+		{
+			key: 'GeBiz',
+			label: 'WOG Data',
+			path: '/gebiz',
+			icon: <FaCubes />
+		},
+
+		{
+			key: 'WOG BCT',
+			label: 'JTC Cost Norms',
+			path: '/wog_bct',
+			icon: <FaCube />
+		}	
+	]	
+},
 	{
-		key: 'GeBiz',
-		label: 'GeBiz',
-		path: '/gebiz',
-		icon: <HiDatabase  />
-	},
-	{
-		key: 'Pest Calculator',
-		label: 'WOG Cost Calculator',
-		path: '/wog_cost_calculator',
-		icon:<FaGlobeAsia />
-	},	
-	{
-		key: 'Cost Calculator',
-		label: 'JTC Cost Calculator',
-		path: '/pulse_cost_calculator',
-		icon: <FaRegBuilding />
+        key: 'Cost Calculators',
+        label: 'Cost Calculators',
+		icon: <FaCalculator/>,
+        children: [
+            {
+                key: 'Pest Calculator',
+                label: 'WOG Cost Calculator',
+                path: '/wog_cost_calculator',
+                icon: <FaGlobeAsia />
+            },
+            {
+                key: 'Cost Calculator',
+                label: 'JTC Cost Calculator',
+                path: '/pulse_cost_calculator',
+                icon: <FaRegBuilding />
+            }
+        ]
 	}
-	// },
-
-	// {
-	// 	key: 'Cleaning & Waste Calculator',
-	// 	label: 'Cleaning & Waste Calculator',
-	// 	path: '/',
-	// 	icon: <HiBeaker/>
-	// }
-	// ,
-
-	// {
-	// 	key: 'Landscape and Maintenance Calculator',
-	// 	label: 'Landscape and Maintenance Calculator',
-	// 	path: '/',
-	// 	icon: <HiOfficeBuilding/>
-	// },
-	// {
-	// 	key: 'Mechanical and Electrical Calculator',
-	// 	label: 'Mechanical and Electrical Calculator',
-	// 	path: '/',
-	// 	icon: <HiLightBulb/>
-	// }
-	// ,
-	// {
-	// 	key: 'Sani',
-	// 	label: 'Mechanical and Electrical Calculator',
-	// 	path: '/',
-	// 	icon: <HiHand/>
-	// }
-
 ]
 
 export const DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
-	// {
-	// 	key: 'settings',
-	// 	label: 'Settings',
-	// 	path: '/settings',
-	// 	icon: <HiOutlineCog />
-	// },
 	{
 		key: 'support',
 		label: 'Help & Support',

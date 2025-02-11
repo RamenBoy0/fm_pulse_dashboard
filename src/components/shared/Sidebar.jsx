@@ -1,8 +1,9 @@
 // Manage the Side bar
-import React from 'react'
+import React, {useState} from 'react'
 import { FcLineChart } from "react-icons/fc";
 import { Link, useLocation } from 'react-router-dom'
 import { DASHBOARD_SIDEBAR_LINKS, DASHBOARD_SIDEBAR_BOTTOM_LINKS } from "../../lib/const/navigation"
+import { FaChevronDown, FaChevronRight } from "react-icons/fa"; // Icons for expand/collapse
 import classNames from 'classnames'
 
 // CSS for sidebar
@@ -31,13 +32,50 @@ export default function Sidebar() {
     </div>
 }
 
-// Return each item and their respetive icons
+
+// Sidebar Link Component
 function SidebarLink({ item }) {
-    const {pathname} = useLocation()
+    const { pathname } = useLocation();
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const toggleExpand = () => {
+        setIsExpanded(!isExpanded);
+    };
+
     return (
-        <Link to={item.path} className={classNames(pathname === item.path ? 'bg-neutral-700 text-white' : 'text-neutral-400', linkClasses)}>
-            <span className='text-xl'>{item.icon}</span>
-            {item.label}
-        </Link>
-    )
+        <div>
+            {item.children ? (
+                <div>
+                    {/* Parent menu item */}
+                    <div 
+                        className={classNames('flex justify-between items-center cursor-pointer', linkClasses)}
+                        onClick={toggleExpand}
+                    >
+                        <div className="flex items-center gap-2">
+                            <span className='text-xl'>{item.icon}</span>
+                            {item.label}
+                        </div>
+                        <span>{isExpanded ? <FaChevronDown /> : <FaChevronRight />}</span>
+                    </div>
+
+                    {/* Nested child items */}
+                    {isExpanded && (
+                        <div className="ml-6">
+                            {item.children.map((child) => (
+                                <SidebarLink key={child.key} item={child} />
+                            ))}
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <Link 
+                    to={item.path} 
+                    className={classNames(pathname === item.path ? 'bg-neutral-700 text-white' : 'text-neutral-400', linkClasses)}
+                >
+                    <span className='text-xl'>{item.icon}</span>
+                    {item.label}
+                </Link>
+            )}
+        </div>
+    );
 }
