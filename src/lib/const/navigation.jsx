@@ -1,7 +1,7 @@
 import { HiOutlineQuestionMarkCircle } 
 from 'react-icons/hi'
 
-import { IoHomeOutline } 
+import { IoHomeOutline, IoBookSharp  } 
 from "react-icons/io5";
 
 import { FaRegBuilding, FaGlobeAsia } 
@@ -54,6 +54,14 @@ export const DASHBOARD_SIDEBAR_LINKS = [
         label: 'Repositories',
 		icon: <FaDatabase/>,
         children: [
+		
+		{
+			key: 'Manual',
+			label: 'Manual',
+			path: '/manual_repo',
+			icon: <IoBookSharp />
+		},
+
 		{
 			key: 'GeBiz',
 			label: 'WOG Data',
@@ -74,8 +82,14 @@ export const DASHBOARD_SIDEBAR_LINKS = [
         label: 'Cost Calculators',
 		icon: <FaCalculator/>,
         children: [
+			{
+				key: 'Manual',
+				label: 'Manual',
+				path: '/manual_cal',
+				icon: <IoBookSharp />
+			},
             {
-                key: 'Pest Calculator',
+                key: 'WOG Cost Calculator',
                 label: 'WOG Cost Calculator',
                 path: '/wog_cost_calculator',
                 icon: <FaGlobeAsia />

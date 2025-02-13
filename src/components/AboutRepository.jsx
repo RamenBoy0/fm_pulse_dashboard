@@ -39,9 +39,9 @@ export default function AboutCalculator() {
                     {/* JTC Trade Cost Calculator */}
                     <div>
                     <div className="mb-4">
-                    <h3 className="text-lg font-semibold text-blue-700">WOG Repository</h3>
+                    <h3 className="text-lg font-semibold text-blue-700">JTC Cost Norms</h3>
                         <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                            <li><strong>Purpose:</strong> Allow users to access <b>historical data</b> on WOG tenders & contracts.</li>
+                            <li><strong>Purpose:</strong> Allow users to access <b>historical data</b> on JTC Internal Contract Data.</li>
                             <li><strong>Columns:</strong>
                                 <ul className="list-disc pl-6 space-y-1">
                                     <li><strong>Year:</strong> <i>Tender Publish Year</i></li>

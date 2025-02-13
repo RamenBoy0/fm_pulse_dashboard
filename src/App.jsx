@@ -9,6 +9,8 @@ import GeBiz from './components/GeBiz'
 import WOG from './components/WOG'
 import AboutRepository from './components/AboutRepository'
 import AboutCalculator from './components/AboutCalculator'
+import ManualCalculator from './components/ManualCalculator'
+import ManualRepository from './components/ManualRepository'
 
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
                     <Route path='help' element={<HelpSupport />} />
                     <Route path='about_cal'element={<AboutCalculator />} />
                     <Route path='about_repo'element={<AboutRepository />} />
+                    <Route path='manual_cal'element={<ManualCalculator/>} />
+                    <Route path='manual_repo'element={<ManualRepository/>} />
                 </Route>
             </Routes>
         </Router>
