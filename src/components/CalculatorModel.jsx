@@ -190,8 +190,15 @@ export default function CalculatorModel() {
                             {result && (
                             <div className="text-xl mt-6 p-4 bg-green-100 text-green-800 rounded-lg">
                                 <p>
+                                <div className="mb-4">
                                 <strong>Trade Cost Prediction:</strong>
+                                </div>
+                                <div className="mb-4">
+                                <p>Based on the user-input given :</p> 
+                                <p><i>GFA : {gfa} / Building Type : {buildingType} / Duration : {duration} </i></p>
+                                </div>
                                 </p>
+                             
                                 {/* Side-by-side tables */}
                                 <div className="flex flex-wrap gap-4 mt-4">
                                     {/* Table for Trait Cost */}

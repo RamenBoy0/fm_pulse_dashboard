@@ -127,6 +127,12 @@ export default function WOGModel() {
 
                     {result && (
                     <div className="text-xl mt-6 p-4 bg-green-100 text-green-800 rounded-lg">
+                          <div className="mb-4">
+                    <h5 className="text-lg font-bold mb-4">Total Cost Benchmark (%) </h5>
+                    <p>Based on the user-input given :</p> 
+                    <p><i>GFA : {gfa} / Building Type : {buildingType} / Duration : {duration} </i></p>
+                          </div>
+                        
                         <p>
                             <strong>Lower Bound: </strong> ${result.lower.toFixed(2)} / sqm
                         </p>
@@ -137,6 +143,7 @@ export default function WOGModel() {
                             <strong>Upper Bound: </strong> ${result.upper.toFixed(2)} / sqm
                         </p>
                     </div>
+   
                 )}
         </div>
         </div>
