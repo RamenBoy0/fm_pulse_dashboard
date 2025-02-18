@@ -28,14 +28,18 @@ export default function ManualCalculator() {
                         <h2 className="text-2xl font-semibold mb-4">Terminologies</h2>
                         <h3 className="text-lg font-semibold text-blue-700">WoG Cost Calculator</h3>
                         <ul className="list-decimal pl-6 space-y-2">
-                            <li><strong>Accuracy:</strong> 25% MAPE (Mean Absolute Precision Error)</li>
+                            <li><strong>Accuracy:</strong> --- (Mean Absolute Precision Error)</li>
                             <li><strong>Purpose:</strong> Estimates $ per sqm of total <b>building costs</b> based on historical data.</li>
                             <li><strong>Model:</strong> Local Outlier Factor / Ridge Regression</li>
                             <li><strong>Building Factors:</strong>
                                 <ul className="list-[lower-alpha] pl-6 space-y-1">
-                                    <li>🏢 <strong>GFA:</strong> <i>Building Size in Sqm</i></li>
-                                    <li>🏗️ <strong>Building Type:</strong> <i>Standalone or Cluster</i></li>
-                                    <li>📅 <strong>Contract Duration:</strong> <i>1 to 9 Years</i></li>
+                                    <li>🏢 <strong>GFA:</strong> <i>Building Size in Sqm (Gross Floor Area)</i></li>
+                                    <li>🏗️ <strong>Building Type:</strong> <i>Type of building</i></li>
+                                    <ul className="list-decimal pl-6 space-y-1">
+                                        <li>Single Building in a contract (Eg; Single)</li>
+                                        <li>Multiple Buildings in a contract (Eg; Cluster)</li>
+                                    </ul>
+                                    <li>📅 <strong>Contract Duration:</strong> <i>Number of years the contract last (Eg; 1 - 9 years)</i></li>
                                 </ul>
                             </li>
                         </ul>
@@ -48,12 +52,13 @@ export default function ManualCalculator() {
                             <li><strong>Purpose:</strong> Estimates $ per sqm of total <b>individual trade cost</b> based on historical data.</li>
                             <li><strong>Model:</strong> Tweedie Regression</li>
                             <li><strong>Building Factors:</strong>
-                                <ul className="list-[lower-alpha] pl-6 space-y-1">
-                                    <li>🏢 <strong>GFA:</strong> <i>Building Size in Sqm</i></li>
-                                    <li>🏗️ <strong>Building Type:</strong> <i>Amenity Centre / Business Park / Flatted Factories / etc</i></li>
-                                    <li>📅 <strong>Contract Duration:</strong> <i>1 to 9 Years</i></li>
-                                    <li>💰 <strong>Trade Cost:</strong> <i>Pest Control / Security / Cleaning and Waste / etc  </i></li>
+                            <ul className="list-[lower-alpha] pl-6 space-y-1">
+                                    <li>🏢 <strong>GFA:</strong> <i>Building Size in Sqm (Gross Floor Area)</i></li>
+                                    <li>🏗️ <strong>Building Type:</strong> <i>Type of building (Eg; Amentiy Centre, Flatted Factories, etc)</i></li>
+                                    <li>📅 <strong>Contract Duration:</strong> <i>Number of years the contract last (Eg; 1 - 9 years)</i></li>
+                                    <li>💰 <strong>Trade Cost:</strong> <i>Individual Trade Services in a contract (Eg; Pest Control, Security, Cleaning and Waste, etc)  </i></li>
                                 </ul>
+
                             </li>
                         </ul>
                         </div>

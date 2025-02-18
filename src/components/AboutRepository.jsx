@@ -4,7 +4,7 @@ export default function AboutRepository() {
         <div className="container mx-auto px-6 py-10">
             {/* Header */}
             <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
-                Repositories
+                <b>Repositories</b>
             </h1>
 
             {/* Calculator */}
@@ -17,8 +17,8 @@ export default function AboutRepository() {
                     <div className="mb-6">
                     <div className="mb-4">
                         <p><b>All in one place</b>. Our repositories are made up of compiled WoG contracts
-                    extracted from GEBiz and other GPEs like JTC’s Megatender BCTs.<span className= 'text-orange-500'> This also acts
-                    as the backbone of our Cost Calculator. </span></p>
+                    extracted from GEBiz and other GPEs like JTC’s Megatender BCTs. This also acts
+                    as the backbone of our Cost Calculator.</p>
                         </div>
                     </div>
 
@@ -26,7 +26,7 @@ export default function AboutRepository() {
                     <div>
                     <div className="mb-4">
                     <div className="mb-2">
-                    <h3 className="text-lg font-semibold"><b>What you can do with our Repositories: </b></h3>
+                    <h3 className="text-lg font-semibold">What you can do with our Repositories: </h3>
                     </div>
                     <div className="mb-2">
                     <strong>1. WoG Repository:</strong>

@@ -15,12 +15,12 @@ export default function Home() {
                     <h2 className="text-2xl font-semibold text-gray-900 mb-4">About WoG FM Pulse</h2>
                     <div className="mb-4">
                         <p><b>WoG FM Pulse</b> acts both as a predictive tool and a centralised data repository to help agencies predict cost benchmarks for various elements in building contracts while 
-                        also retrieving WOG tenders and contracts.</p>
+                        also retrieving WoG tenders and contracts.</p>
                     </div>
                     <div className="mb-4">
                         <p>This tool consist of 2 functions : </p>
                     <ul className="list-decimal pl-6 space-y-2 ">
-                        <li><strong><b>Repositories</b>:</strong> A centralised repository where other WOG agencies can
+                        <li><strong><b>Repositories</b>:</strong> A centralised repository where other WoG agencies can
                         view, search and retrieve historical tender and contract data.</li>
                         <li><strong><b>Cost Calculators</b>:</strong> Calculators based on our repositories that help
                         agencies estimate trade costs and lump sum of building projects.</li>
