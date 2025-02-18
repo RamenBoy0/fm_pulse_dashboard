@@ -16,7 +16,7 @@ export default function AboutRepository() {
                     {/* WOG Cost Calculator */}
                     <div className="mb-6">
                     <div className="mb-4">
-                        <p><b>All in one place</b>. Our repositories are made up of compiled WOG contracts
+                        <p><b>All in one place</b>. Our repositories are made up of compiled WoG contracts
                     extracted from GEBiz and other GPEs like JTC’s Megatender BCTs.<span className= 'text-orange-500'> This also acts
                     as the backbone of our Cost Calculator. </span></p>
                         </div>
@@ -28,18 +28,19 @@ export default function AboutRepository() {
                     <div className="mb-2">
                     <h3 className="text-lg font-semibold"><b>What you can do with our Repositories: </b></h3>
                     </div>
-                        <ul className="list-disc pl-6 space-y-2">
-                            <li><strong>1. WOG Repository:</strong></li>
-                            <ul className="list-disc pl-6 space-y-1">
-                                    <li>Retrieve past WOG tenders and contracts.</li>
+                    <div className="mb-2">
+                    <strong>1. WoG Repository:</strong>
+                            <ul className="list-[lower-alpha] pl-6 space-y-1">
+                                    <li>Retrieve past WoG tenders and contracts.</li>
                                 </ul>
-                            <li><strong>2. JTC Cost Norms:</strong>
-                                <ul className="list-disc pl-6 space-y-1">
+                    </div>
+                            <strong>2. JTC Cost Norms:</strong>
+                                <ul className="list-[lower-alpha] pl-6 space-y-1">
                                     <li>Retrieve historical data on trade costs extracted from JTC Internal
                                     Contract Data.</li>
                                 </ul>
-                            </li>
-                        </ul>
+                            
+                   
                         </div>
                         <div className="mb-2">
                         <p><strong>Facts for nerds:</strong></p> 
@@ -54,7 +55,7 @@ export default function AboutRepository() {
                         Coming soon: more GPE data
                         </i></p>
                         </div>
-                        <p><a href="/gebiz" className="text-blue-500 underline">Go to WOG Repository</a></p>
+                        <p><a href="/gebiz" className="text-blue-500 underline">Go to WoG Repository</a></p>
                         <a href="/wog_bct" className="text-blue-500 underline">Go to JTC Cost Norms Repository</a>
                         </div>
                     </div>

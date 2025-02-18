@@ -64,7 +64,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 
 		{
 			key: 'GeBiz',
-			label: 'WOG Data',
+			label: 'WoG Data',
 			path: '/gebiz',
 			icon: <FaCubes />
 		},
@@ -90,7 +90,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 			},
             {
                 key: 'WOG Cost Calculator',
-                label: 'WOG Cost Calculator',
+                label: 'WoG Cost Calculator',
                 path: '/wog_cost_calculator',
                 icon: <FaGlobeAsia />
             },

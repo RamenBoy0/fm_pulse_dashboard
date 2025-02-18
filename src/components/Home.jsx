@@ -12,14 +12,14 @@ export default function Home() {
                 
                 {/* About Section */}
                 <div className="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
-                    <h2 className="text-2xl font-semibold text-gray-900 mb-4">About WOG FM Pulse</h2>
+                    <h2 className="text-2xl font-semibold text-gray-900 mb-4">About WoG FM Pulse</h2>
                     <div className="mb-4">
-                        <p><b>WOG FM Pulse</b> acts both as a predictive tool and a centralised data repository to help agencies predict cost benchmarks for various elements in building contracts while 
+                        <p><b>WoG FM Pulse</b> acts both as a predictive tool and a centralised data repository to help agencies predict cost benchmarks for various elements in building contracts while 
                         also retrieving WOG tenders and contracts.</p>
                     </div>
                     <div className="mb-4">
                         <p>This tool consist of 2 functions : </p>
-                    <ul className="list-disc pl-6 space-y-2 ">
+                    <ul className="list-decimal pl-6 space-y-2 ">
                         <li><strong><b>Repositories</b>:</strong> A centralised repository where other WOG agencies can
                         view, search and retrieve historical tender and contract data.</li>
                         <li><strong><b>Cost Calculators</b>:</strong> Calculators based on our repositories that help

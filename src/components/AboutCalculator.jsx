@@ -28,18 +28,17 @@ export default function AboutCalculator() {
                     <div className="mb-2">
                     <h3 className="text-lg font-semibold"><b>What you can do with our Cost Calculator: </b></h3>
                     </div>
-                        <ul className="list-disc pl-6 space-y-2">
-                            <li><strong>1. WOG Cost Calculator:</strong></li>
-                            <ul className="list-disc pl-6 space-y-1">
-                                    <li>Estimate the dollar per sqm of each trade cost</li>
+                    <div className="mb-2">
+                    <strong>1. WoG Cost Calculator:</strong>
+                            <ul className="list-[lower-alpha] pl-6 space-y-1">
+                                    <li>Estimate the dollar per sqm of each trade cost.</li>
                                 </ul>
-                            <li><strong>2. JTC Trade Cost Calculator:</strong>
-                                <ul className="list-disc pl-6 space-y-1">
-                                    <li>Estimate the dollar per sqm of your total building
-                                    cost based on historical data</li>
+                    </div>
+                            <strong>2. JTC Trade Cost Calculator:</strong>
+                                <ul className="list-[lower-alpha] pl-6 space-y-1">
+                                    <li>Estimate the dollar per sqm of your total building cost based on historical data.</li>
                                 </ul>
-                            </li>
-                        </ul>
+                            
                         </div>
                         <div className="mb-2">
                         <p><strong>Facts for nerds:</strong></p> 
@@ -54,7 +53,7 @@ export default function AboutCalculator() {
                         <i>Coming soon: more GPE data</i></p>
                         </div>
 
-                        <p><a href="/wog_cost_calculator" className="text-blue-500 underline">Go to WOG Cost Calculator</a></p>
+                        <p><a href="/wog_cost_calculator" className="text-blue-500 underline">Go to WoG Cost Calculator</a></p>
                         <a href="/pulse_cost_calculator" className="text-blue-500 underline">Go to JTC Trade Cost Calculator</a>
                         </div>
                     </div>

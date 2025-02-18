@@ -54,7 +54,7 @@ export default function WOGModel() {
             <div className='pl-4'>
                 <span>
                 <strong className='text-xl text-gray-700 font-semibold'>
-                Whole of Government (WOG) Total Cost Calculator 
+                Whole of Government (WoG) Total Cost Calculator 
                 </strong>
                 </span>
             </div>
