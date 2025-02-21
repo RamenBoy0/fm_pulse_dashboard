@@ -31,12 +31,14 @@ export default function AboutCalculator() {
                     <div className="mb-2">
                     <strong>1. WoG Cost Calculator:</strong>
                             <ul className="list-[lower-alpha] pl-6 space-y-1">
-                                    <li>Estimate the dollar per sqm of each trade cost.</li>
+                                    <li>Estimate the dollar per sqm of your total building cost based on historical data.
+
+                                    </li>
                                 </ul>
                     </div>
                             <strong>2. JTC Trade Cost Calculator:</strong>
                                 <ul className="list-[lower-alpha] pl-6 space-y-1">
-                                    <li>Estimate the dollar per sqm of your total building cost based on historical data.</li>
+                                    <li>Estimate the dollar per sqm of each trade cost.</li>
                                 </ul>
                             
                         </div>

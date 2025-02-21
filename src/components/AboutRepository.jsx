@@ -17,7 +17,7 @@ export default function AboutRepository() {
                     <div className="mb-6">
                     <div className="mb-4">
                         <p><b>All in one place</b>. Our repositories are made up of compiled WoG contracts
-                    extracted from GEBiz and other GPEs like JTC’s Megatender BCTs. This also acts
+                    extracted from GEBiz and other GPEs like JTC’s BCTs contract. This also acts
                     as the backbone of our Cost Calculator.</p>
                         </div>
                     </div>
