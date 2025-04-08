@@ -8,6 +8,10 @@ export default function CalculatorModel() {
     const [result, setResult] = useState(null); // State for calculation result
     const [loading, setLoading] = useState(false); // State for loading
 
+    const [fixedGfa, setFixedGfa] = useState("") // State for fixed gfa
+    const [fixedBuildingType, setFixedBuildingType] = useState("") // State for fixed building type 
+    const [fixedDuration, setFixedDuration] = useState("") // State for duration
+
     // Define trait costs for model 
     const costList = [
         "Preliminaries",
@@ -65,6 +69,13 @@ export default function CalculatorModel() {
             }
     
             const data = await response.json();
+
+            
+            // Save fixed values when calculating 
+            setFixedGfa(gfa);
+            setFixedBuildingType(buildingType);
+            setFixedDuration(duration);
+
             
             // Set data from JSON payload
             setResult({
@@ -195,7 +206,7 @@ export default function CalculatorModel() {
                                 </div>
                                 <div className="mb-4">
                                 <p>Based on the user-input given :</p> 
-                                <p><i>GFA : {gfa} / Building Type : {buildingType} / Duration : {duration} </i></p>
+                                <p><i>GFA : {fixedGfa} / Building Type : {fixedBuildingType} / Duration : {fixedDuration} </i></p>
                                 </div>
                                 </p>
                              

@@ -9,6 +9,10 @@ export default function WOGModel() {
     const [result, setResult] = useState(null); // State for calculation result
     const [loading, setLoading] = useState(false); // State for loading
 
+    const [fixedGfa, setFixedGfa] = useState("")
+    const [fixedBuildingType, setFixedBuildingType] = useState("")
+    const [fixedDuration, setFixedDuration] = useState("")
+
     const handleCalculate = async () => {
         const requestData = {
             GFA: parseFloat(gfa),  // GFA value entered by the user
@@ -31,7 +35,12 @@ export default function WOGModel() {
             }
     
             const data = await response.json();
-            
+
+            // Save fixed values when calculating 
+            setFixedGfa(gfa);
+            setFixedBuildingType(buildingType);
+            setFixedDuration(duration);
+
             setResult({
                 lower: data.lower_percentile,
                 mean: data.mean_prediction,
@@ -130,7 +139,7 @@ export default function WOGModel() {
                           <div className="mb-4">
                     <h5 className="text-lg font-bold mb-4">Total Cost Benchmark (%) </h5>
                     <p>Based on the user-input given :</p> 
-                    <p><i>GFA : {gfa} / Building Type : {buildingType} / Duration : {duration} </i></p>
+                    <p><i>GFA : {fixedGfa} / Building Type : {fixedBuildingType} / Duration : {fixedDuration} </i></p>
                           </div>
                         
                         <p>
