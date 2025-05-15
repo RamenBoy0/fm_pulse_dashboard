@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FcSearch } from "react-icons/fc";
 import * as XLSX from "xlsx";
 import TablePagination from "@mui/material/TablePagination";
+import Tooltip from "@mui/material/Tooltip";
 
 export default function GeBiz() {
   const [gebiz, setGebiz] = useState([]); // Set the data
@@ -158,7 +159,11 @@ export default function GeBiz() {
           <table className="w-full text-gray-700">
             <thead className="bg-gray-200 text-gray-800 font-semibold">
               <tr className="border-b-2 border-gray-300">
-                <th className="px-4 py-2">Title</th>
+                <Tooltip title="The tender title" arrow>
+                  <th className="px-4 py-2" title="Title of Tender">
+                    Title
+                  </th>
+                </Tooltip>
                 <th className="px-4 py-2">Agency</th>
                 <th className="px-4 py-2">Description</th>
                 <th className="px-4 py-2">Price</th>
@@ -205,7 +210,7 @@ export default function GeBiz() {
           onPageChange={(event, newPage) => setCurrentPage(newPage + 1)}
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={(event) => {
-            setCurrentPage(1); // Reset to page 1 when changing rowsPerPage
+            setCurrentPage(1); // reset to page 1 when changing rowsPerPage
             setRowsPerPage(parseInt(event.target.value, 10));
           }}
           rowsPerPageOptions={[
