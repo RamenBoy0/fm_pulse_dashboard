@@ -80,10 +80,9 @@ export default function GeBiz() {
     // TODO: check if there can be more than one awarded agency: if so, we need to extract the whole list out
     const processedData = gebiz.map((item) => ({
       ...item,
-      awarded_agency:
-        Array.isArray(item.awarded_agency) && item.awarded_agency.length > 0
-          ? item.awarded_agency[0]
-          : "",
+      awarded_agency: Array.isArray(item.awarded_agency)
+        ? item.awarded_agency.join(", ")
+        : "",
     }));
     const worksheet = XLSX.utils.json_to_sheet(processedData);
     const workbook = XLSX.utils.book_new();
