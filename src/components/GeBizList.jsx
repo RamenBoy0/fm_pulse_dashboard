@@ -76,8 +76,8 @@ export default function GeBiz() {
   const exportToExcel = () => {
     // Convert current data to excel
 
-    // preprocessing to take the awarded agency element out of the list
-    // TODO: check if there can be more than one awarded agency: if so, we need to extract the whole list out
+    // preprocessing to take the awarded agency elements out of the list
+    // agencies are separated with commas
     const processedData = gebiz.map((item) => ({
       ...item,
       awarded_agency: Array.isArray(item.awarded_agency)
