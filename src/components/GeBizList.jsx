@@ -2,12 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { FcSearch } from "react-icons/fc";
 import * as XLSX from "xlsx";
+import TablePagination from "@mui/material/TablePagination";
+import Tooltip from "@mui/material/Tooltip";
 
 export default function GeBiz() {
   const [gebiz, setGebiz] = useState([]); // Set the data
   const [searchTerm, setSearchTerm] = useState(""); // Set the search term
   const [currentPage, setCurrentPage] = useState(1); // Set the page number
-  const rowsPerPage = 6; // Limit to 6 rows per page
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [showAll, setShowAll] = useState(false); // Function to retrieve all data or subset
   const [loading, setLoading] = useState(false); // Loading State
 
@@ -157,7 +159,11 @@ export default function GeBiz() {
           <table className="w-full text-gray-700">
             <thead className="bg-gray-200 text-gray-800 font-semibold">
               <tr className="border-b-2 border-gray-300">
-                <th className="px-4 py-2">Title</th>
+                <Tooltip title="The tender title" arrow>
+                  <th className="px-4 py-2" title="Title of Tender">
+                    Title
+                  </th>
+                </Tooltip>
                 <th className="px-4 py-2">Agency</th>
                 <th className="px-4 py-2">Description</th>
                 <th className="px-4 py-2">Price</th>
@@ -196,26 +202,24 @@ export default function GeBiz() {
         </div>
 
         {/* Pagination Controls */}
-        {}
-        <div className="mt-4 flex justify-between">
-          <button
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
-            onClick={prevPage}
-            disabled={currentPage === 1}
-          >
-            Previous
-          </button>
-          <span className="text-gray-700">
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
-            onClick={nextPage}
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </button>
-        </div>
+
+        <TablePagination
+          component="div"
+          count={gebiz.length}
+          page={currentPage - 1} // MUI pages are 0-indexed
+          onPageChange={(event, newPage) => setCurrentPage(newPage + 1)}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={(event) => {
+            setCurrentPage(1); // reset to page 1 when changing rowsPerPage
+            setRowsPerPage(parseInt(event.target.value, 10));
+          }}
+          rowsPerPageOptions={[
+            6,
+            10,
+            25,
+            { label: "All", value: gebiz.length },
+          ]}
+        />
       </div>
     </div>
   );
