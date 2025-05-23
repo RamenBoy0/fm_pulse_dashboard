@@ -21,3 +21,14 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.vs/fm_pulse_dashboard/FileContentIndex/cd9ecbe3-bac6-461e-858d-75e111035d1f.vsidx
+.vs/fm_pulse_dashboard/FileContentIndex/4ae6ec22-8aa5-4bef-9534-04d1379c5572.vsidx
+.vs/fm_pulse_dashboard/FileContentIndex/9c41372a-25d0-4137-847b-cb2eb556947d.vsidx
+.vs/fm_pulse_dashboard/FileContentIndex/c261cc0a-72c2-4a7b-a8c7-69ac2d5f8741.vsidx
+.vs/fm_pulse_dashboard/FileContentIndex/de8b62e6-4c5e-43d4-b039-4c399efabd3c.vsidx
+*.vsidx
+.vs/fm_pulse_dashboard/v17/.wsuo
+.vs/fm_pulse_dashboard/v17/DocumentLayout.backup.json
+.vs/fm_pulse_dashboard/v17/DocumentLayout.json
+.vs/slnx.sqlite
+.vs/VSWorkspaceState.json
