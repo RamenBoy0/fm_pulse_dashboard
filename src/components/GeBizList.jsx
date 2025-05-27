@@ -167,6 +167,7 @@ export default function GeBiz() {
                 <th className="px-4 py-2">Agency</th>
                 <th className="px-4 py-2">Description</th>
                 <th className="px-4 py-2">Price</th>
+                <th className="px-4 py-2">Contract Duration</th>
                 <th className="px-4 py-2">Status</th>
                 <th className="px-4 py-2">WOG</th>
                 <th className="px-4 py-2">Date</th>
@@ -188,6 +189,9 @@ export default function GeBiz() {
                   <td className="border px-4 py-2">{gebiz.description}</td>
                   <td className="border px-4 py-2">
                     ${gebiz.price.toFixed(2)}
+                  </td>
+                  <td className="border px-4 py-2">
+                    {gebiz.contract_duration || "N/A"}
                   </td>
                   <td className="border px-4 py-2">{gebiz.status}</td>
                   <td className="border px-4 py-2">{gebiz.WOG}</td>
