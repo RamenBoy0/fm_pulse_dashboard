@@ -1,114 +1,117 @@
-import { HiOutlineQuestionMarkCircle } 
-from 'react-icons/hi'
+import { HiOutlineQuestionMarkCircle } from "react-icons/hi";
 
-import { IoHomeOutline, IoBookSharp  } 
-from "react-icons/io5";
+import { IoHomeOutline, IoBookSharp } from "react-icons/io5";
 
-import { FaRegBuilding, FaGlobeAsia } 
-from "react-icons/fa";
+import { FaRegBuilding, FaGlobeAsia } from "react-icons/fa";
+import { MdUploadFile } from "react-icons/md";
 
-import { FaDatabase, FaCalculator, FaCubes, FaCube, FaBook } 
-from "react-icons/fa";
+import {
+  FaDatabase,
+  FaCalculator,
+  FaCubes,
+  FaCube,
+  FaBook,
+} from "react-icons/fa";
 
-import { FcLineChart } 
-from "react-icons/fc";
+import { FcLineChart } from "react-icons/fc";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
+  {
+    key: "Home",
+    label: "Home",
+    icon: <IoHomeOutline />,
+    children: [
+      {
+        key: "FM Pulse",
+        label: "FM Pulse",
+        path: "/home",
+        icon: <FcLineChart />,
+      },
 
-	{
-	key: 'Home',
-	label: 'Home',
-	icon: <IoHomeOutline/>,
-	children: [
-		{
-			key: 'FM Pulse',
-			label: 'FM Pulse',
-			path: '/home',
-			icon: <FcLineChart/>
-		}
-
-		,{
-			key: 'About',
-			label: 'About',
-			icon: <FaBook/>,
-			children : [
-				{
-					key: 'AboutRepository',
-					label: 'Repository',
-					path: '/about_repo'
-				
-				},
-				{
-					key: 'AboutCalculator',
-					label: 'Calculator',
-					path: '/about_cal'
-				
-				}
-			]
-		}
-	]
-}
-,
-	{
-        key: 'Repositories',
-        label: 'Repositories',
-		icon: <FaDatabase/>,
+      {
+        key: "About",
+        label: "About",
+        icon: <FaBook />,
         children: [
-		
-		{
-			key: 'Manual',
-			label: 'Manual',
-			path: '/manual_repo',
-			icon: <IoBookSharp />
-		},
+          {
+            key: "AboutRepository",
+            label: "Repository",
+            path: "/about_repo",
+          },
+          {
+            key: "AboutCalculator",
+            label: "Calculator",
+            path: "/about_cal",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    key: "Repositories",
+    label: "Repositories",
+    icon: <FaDatabase />,
+    children: [
+      {
+        key: "Manual",
+        label: "Manual",
+        path: "/manual_repo",
+        icon: <IoBookSharp />,
+      },
 
-		{
-			key: 'GeBiz',
-			label: 'WoG Data',
-			path: '/gebiz',
-			icon: <FaCubes />
-		},
+      {
+        key: "GeBiz",
+        label: "WoG Data",
+        path: "/gebiz",
+        icon: <FaCubes />,
+      },
 
-		{
-			key: 'WOG BCT',
-			label: 'JTC Cost Norms',
-			path: '/wog_bct',
-			icon: <FaCube />
-		}	
-	]	
-},
-	{
-        key: 'Cost Calculators',
-        label: 'Cost Calculators',
-		icon: <FaCalculator/>,
-        children: [
-			{
-				key: 'Manual',
-				label: 'Manual',
-				path: '/manual_cal',
-				icon: <IoBookSharp />
-			},
-            {
-                key: 'WOG Cost Calculator',
-                label: 'WoG Cost Calculator',
-                path: '/wog_cost_calculator',
-                icon: <FaGlobeAsia />
-            },
-            {
-                key: 'Cost Calculator',
-                label: 'JTC Cost Calculator',
-                path: '/pulse_cost_calculator',
-                icon: <FaRegBuilding />
-            }
-        ]
-	}
-]
+      {
+        key: "WOG BCT",
+        label: "JTC Cost Norms",
+        path: "/wog_bct",
+        icon: <FaCube />,
+      },
+    ],
+  },
+  {
+    key: "Cost Calculators",
+    label: "Cost Calculators",
+    icon: <FaCalculator />,
+    children: [
+      {
+        key: "Manual",
+        label: "Manual",
+        path: "/manual_cal",
+        icon: <IoBookSharp />,
+      },
+      {
+        key: "WOG Cost Calculator",
+        label: "WoG Cost Calculator",
+        path: "/wog_cost_calculator",
+        icon: <FaGlobeAsia />,
+      },
+      {
+        key: "Cost Calculator",
+        label: "JTC Cost Calculator",
+        path: "/pulse_cost_calculator",
+        icon: <FaRegBuilding />,
+      },
+    ],
+  },
+  {
+    key: "BCT Extractor",
+    label: "BCT Extractor",
+    icon: <MdUploadFile />,
+    path: "/bct_extractor",
+  },
+];
 
 export const DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
-	{
-		key: 'support',
-		label: 'Help & Support',
-		path: '/help',
-		icon: <HiOutlineQuestionMarkCircle />
-	}
-]
+  {
+    key: "support",
+    label: "Help & Support",
+    path: "/help",
+    icon: <HiOutlineQuestionMarkCircle />,
+  },
+];
