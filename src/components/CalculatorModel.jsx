@@ -12,6 +12,8 @@ export default function CalculatorModel() {
   const [fixedBuildingType, setFixedBuildingType] = useState(""); // State for fixed building type
   const [fixedDuration, setFixedDuration] = useState(""); // State for duration
 
+  const [selectAll, setSelectAll] = useState(false); // state for SELECT ALL
+
   // Define trait costs for model
   const costList = [
     "Preliminaries",
@@ -24,17 +26,38 @@ export default function CalculatorModel() {
     "Mechanical_and_Electrical_Services_Maintenance",
   ];
 
+  const handleSelectAll = () => {
+    const newState = costList.reduce((acc, cost) => {
+      acc[cost] = !selectAll; // toggle all to true/false
+      return acc;
+    }, {});
+    setCheckedCosts(newState);
+    setSelectAll(!selectAll);
+  };
+
   // Define state for trait cost
   const [checkedCosts, setCheckedCosts] = useState(
     costList.reduce((acc, cost) => ({ ...acc, [cost]: false }), {}) // Initialize state as a dictionary
   );
 
   // Handle checkbox changes
+  // const handleCheckboxChange = (cost) => {
+  //   setCheckedCosts((prev) => ({
+  //     ...prev,
+  //     [cost]: !prev[cost],
+  //   }));
+  // };
+
   const handleCheckboxChange = (cost) => {
-    setCheckedCosts((prev) => ({
-      ...prev,
-      [cost]: !prev[cost],
-    }));
+    const updated = {
+      ...checkedCosts,
+      [cost]: !checkedCosts[cost],
+    };
+    setCheckedCosts(updated);
+
+    // Check if all costs are selected
+    const allSelected = costList.every((c) => updated[c]);
+    setSelectAll(allSelected);
   };
 
   const getCheckedCosts = () => {
@@ -202,6 +225,19 @@ export default function CalculatorModel() {
             <label className="block text-gray-700 font-bold mb-2">
               Predict Costs For:
             </label>
+            <div className="flex items-center space-x-4 mb-2">
+              <input
+                type="checkbox"
+                id="select-all"
+                checked={selectAll}
+                onChange={handleSelectAll}
+                className="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400 "
+              />
+              <label htmlFor="select-all" className="text-gray-700 font-bold">
+                Select All
+              </label>
+            </div>
+
             <div className="grid grid-cols-2 gap-2">
               {costList.map((cost, index) => (
                 <div key={index} className="flex items-center space-x-4">
